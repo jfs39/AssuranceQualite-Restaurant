@@ -1,4 +1,4 @@
-import javax.swing.JOptionPane;
+import java.util.Scanner; 
 
 public class CV {
 
@@ -8,14 +8,14 @@ public class CV {
 	private String prenom;
 	private String formation;
 	private int experience; 
-	private String[] competences;
+	private String competences;
 	private String attentes4B4;
 	
 	public CV(){
 	
 	}
 	
-	public CV(String pNom,String pPrenom,String pFormation,int pExperience, String[] pCompetences, String pAttentes4B4) {
+	public CV(String pNom,String pPrenom,String pFormation,int pExperience, String pCompetences, String pAttentes4B4) {
 		this.nom = pNom;
 		this.prenom = pPrenom;
 		this.formation = pFormation;
@@ -41,7 +41,7 @@ public class CV {
 		return this.experience;
 	}
 	
-	public String[] getCompetences() {
+	public String getCompetences() {
 		return this.competences;
 	}
 	
@@ -67,7 +67,7 @@ public class CV {
 		this.experience = exp;
 	}
 	
-	public void setCompetences(String[] competences) {
+	public void setCompetences(String competences) {
 		this.competences = competences;
 	}
 	
@@ -78,11 +78,44 @@ public class CV {
 	/*----------------------Méthodes Essentielles-----------------------*/
 	
 	public static void main(String[] args) {
-	JOptionPane.showMessageDialog(null , "Bienvenue chez Barette!");
-	CV cv = new CV();
-	cv.setPrenom(JOptionPane.showInputDialog("Veuillez entrer votre prénom : "));
-	cv.setNom(JOptionPane.showInputDialog("Veuillez entrer votre nom : "));
-	cv.setFormation(JOptionPane.showInputDialog("Veuillez entrer votre formation : "));
+	
+	Scanner in = new Scanner(System.in); 
+	
+	String prenom, nom, formation, attentes;
+	int experience;
+	String competences;
+	
+	
+
+	System.out.println("Bienvenue chez Barette!");
+	
+	System.out.print("\nVeuillez entrer votre prénom: ");
+	prenom = in.nextLine();
+	
+	
+	System.out.print("\nVeuillez entrer votre nom: ");
+	nom = in.nextLine();
+	
+	System.out.print("\nVeuillez entrer votre formation: ");
+	formation = in.nextLine();
+	
+	System.out.print("\nVeuillez entrer votre expérience en nombre d'années: ");
+	String blabla = in.nextLine(); // si pas int it dies
+	
+	try {
+		experience = Integer.parseInt(blabla);
+	} catch (Exception e) {
+		experience = 0;
+	}
+	
+	System.out.print("\nVeuillez entrer vos compétences (séparées par des virgules): ");
+	competences = in.nextLine();
+	
+	System.out.print("\nVeuillez entrer vos attentes face au cours 4B4: ");
+	attentes= in.nextLine();
+	
+	
+	CV cv = new CV(prenom, nom, formation, experience, competences, attentes);
 	
 	
 	affiche(cv);
@@ -90,7 +123,13 @@ public class CV {
 	}
 	
 	public static void affiche(CV cv) {
-		JOptionPane.showMessageDialog(null,"Nom: " + cv.getNom() + "\nPrenom: "+ cv.getPrenom() );
+		System.out.println("\nNom: " + cv.getNom() + "\n" + 
+				"Prenom: " + cv.getPrenom() + "\n" +
+				"Formation: " + cv.getFormation() + "\n" + 
+				"Année(s) d'expérience: " + cv.getExp() + "\n" +
+				"Liste de compétences: " + cv.getCompetences() + "\n" +
+				"Attentes face au cours 4B4: " + cv.getAttentes() );
+		
 	}
 	
 	public String afficherCompetences(String[]comp) {
