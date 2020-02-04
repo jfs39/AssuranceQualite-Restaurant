@@ -8,14 +8,14 @@ public class CV {
 	private String prenom;
 	private String formation;
 	private int experience; 
-	private String competences;
+	private String[] competences;
 	private String attentes4B4;
 	
 	public CV(){
 	
 	}
 	
-	public CV(String pNom,String pPrenom,String pFormation,int pExperience, String pCompetences, String pAttentes4B4) {
+	public CV(String pNom,String pPrenom,String pFormation,int pExperience, String[] pCompetences, String pAttentes4B4) {
 		this.nom = pNom;
 		this.prenom = pPrenom;
 		this.formation = pFormation;
@@ -41,7 +41,7 @@ public class CV {
 		return this.experience;
 	}
 	
-	public String getCompetences() {
+	public String[] getCompetences() {
 		return this.competences;
 	}
 	
@@ -67,7 +67,7 @@ public class CV {
 		this.experience = exp;
 	}
 	
-	public void setCompetences(String competences) {
+	public void setCompetences(String[] competences) {
 		this.competences = competences;
 	}
 	
@@ -100,7 +100,7 @@ public class CV {
 	formation = in.nextLine();
 	
 	System.out.print("\nVeuillez entrer votre expérience en nombre d'années: ");
-	String blabla = in.nextLine(); // si pas int it dies
+	String blabla = in.nextLine();
 	
 	try {
 		experience = Integer.parseInt(blabla);
@@ -115,7 +115,7 @@ public class CV {
 	attentes= in.nextLine();
 	
 	
-	CV cv = new CV(prenom, nom, formation, experience, competences, attentes);
+	CV cv = new CV();
 	
 	
 	affiche(cv);
