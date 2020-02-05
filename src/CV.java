@@ -85,7 +85,7 @@ public class CV {
 	
 	String prenom, nom, formation, attentes;
 	int experience;
-	String competences;
+	String[] competences;
 	
 	
 
@@ -105,7 +105,7 @@ public class CV {
 	
 	
 	System.out.print("\nVeuillez entrer vos compétences (séparées par des virgules): ");
-	competences = in.nextLine();
+	String competenceCourante = in.nextLine();
 	
 	System.out.print("\nVeuillez entrer vos attentes face au cours 4B4: ");
 	attentes= in.nextLine();
