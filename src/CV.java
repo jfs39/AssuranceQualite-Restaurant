@@ -1,4 +1,6 @@
-import java.util.Scanner; 
+import java.util.Scanner;
+
+import outilsjava.OutilsLecture; 
 
 public class CV {
 
@@ -99,14 +101,8 @@ public class CV {
 	System.out.print("\nVeuillez entrer votre formation: ");
 	formation = in.nextLine();
 	
-	System.out.print("\nVeuillez entrer votre expérience en nombre d'années: ");
-	String blabla = in.nextLine();
+	experience = OutilsLecture.lireEntierValide("Veuillez entrer votre expérience en nombre d'années: ", 0, 100);
 	
-	try {
-		experience = Integer.parseInt(blabla);
-	} catch (Exception e) {
-		experience = 0;
-	}
 	
 	System.out.print("\nVeuillez entrer vos compétences (séparées par des virgules): ");
 	competences = in.nextLine();
