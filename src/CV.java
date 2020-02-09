@@ -101,7 +101,7 @@ public class CV {
 	System.out.print("\nVeuillez entrer votre formation: ");
 	formation = in.nextLine();
 	
-	experience = OutilsLecture.lireEntierValide("Veuillez entrer votre expérience en nombre d'années: ", 0, 100);
+	experience = OutilsLecture.lireEntierValide("\nVeuillez entrer votre expérience en nombre d'années: ", 0, 100);
 	
 	
 	System.out.print("\nVeuillez entrer vos compétences (séparées par des virgules): ");
@@ -110,8 +110,9 @@ public class CV {
 	System.out.print("\nVeuillez entrer vos attentes face au cours 4B4: ");
 	attentes= in.nextLine();
 	
+	competences = competenceCourante.split(",");
 	
-	CV cv = new CV();
+	CV cv = new CV(nom, prenom, formation, experience, competences, attentes);
 	
 	
 	affiche(cv);
@@ -119,11 +120,22 @@ public class CV {
 	}
 	
 	public static void affiche(CV cv) {
+		
+		int longueur = cv.getCompetences().length;
+		String competences = "";
+		
+		for (int i = 0; i < longueur-1; i++) {
+			competences += cv.getCompetences()[i] + ",";
+		}
+		
+		competences += cv.getCompetences()[longueur-1];
+		
+		
 		System.out.println("\nNom: " + cv.getNom() + "\n" + 
 				"Prenom: " + cv.getPrenom() + "\n" +
 				"Formation: " + cv.getFormation() + "\n" + 
 				"Année(s) d'expérience: " + cv.getExp() + "\n" +
-				"Liste de compétences: " + cv.getCompetences() + "\n" +
+				"Liste de compétences: " + competences + "\n" +
 				"Attentes face au cours 4B4: " + cv.getAttentes() );
 		
 	}
