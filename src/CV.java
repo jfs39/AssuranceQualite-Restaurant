@@ -87,35 +87,47 @@ public class CV {
 	int experience;
 	String[] competences;
 	
-	
 
 	System.out.println("Bienvenue chez Barette!");
+
+	/* Pour lire des informations */
+//	System.out.print("\nVeuillez entrer votre prénom: ");
+//	prenom = in.nextLine();
+//	
+//	System.out.print("\nVeuillez entrer votre nom: ");
+//	nom = in.nextLine();
+//	
+//	System.out.print("\nVeuillez entrer votre formation: ");
+//	formation = in.nextLine();
+//	
+//	experience = OutilsLecture.lireEntierValide("\nVeuillez entrer votre expérience en nombre d'années: ", 0, 100);
+//	
+//	System.out.print("\nVeuillez entrer vos compétences (séparées par des virgules): ");
+//	String competenceCourante = in.nextLine();
+//	
+//	System.out.print("\nVeuillez entrer vos attentes face au cours 4B4: ");
+//	attentes= in.nextLine();
+//	
+//	competences = competenceCourante.split(",");
 	
-	System.out.print("\nVeuillez entrer votre prénom: ");
-	prenom = in.nextLine();
+	String[] competencesJF = new String[4];
+	competencesJF[0] = "Java";
+	competencesJF[1] = "HTML";
+	competencesJF[2] = "CSS";
+	competencesJF[3] = "C#";
+	
+	String[] competencesSteph = new String[4];
+	competencesSteph[0] = "C#";
+	competencesSteph[1] = "Javascript";
+	competencesSteph[2] = "SQL";
+	competencesSteph[3] = "JQuery";
+	
+	CV cvJF = new CV("Sergerie", "Jean-François", "420.AA", 2, competencesJF, "Aucune attente");
+	CV cvSteph = new CV("Leduc", "Stéphanie", "420.AA", 1, competencesSteph, "Aucune attente");
 	
 	
-	System.out.print("\nVeuillez entrer votre nom: ");
-	nom = in.nextLine();
-	
-	System.out.print("\nVeuillez entrer votre formation: ");
-	formation = in.nextLine();
-	
-	experience = OutilsLecture.lireEntierValide("\nVeuillez entrer votre expérience en nombre d'années: ", 0, 100);
-	
-	
-	System.out.print("\nVeuillez entrer vos compétences (séparées par des virgules): ");
-	String competenceCourante = in.nextLine();
-	
-	System.out.print("\nVeuillez entrer vos attentes face au cours 4B4: ");
-	attentes= in.nextLine();
-	
-	competences = competenceCourante.split(",");
-	
-	CV cv = new CV(nom, prenom, formation, experience, competences, attentes);
-	
-	
-	affiche(cv);
+	affiche(cvJF);
+	affiche(cvSteph);
 	
 	}
 	
@@ -128,7 +140,7 @@ public class CV {
 			String competences = "";
 			
 			for (int i = 0; i < longueur-1; i++) {
-				competences += cv.getCompetences()[i] + ",";
+				competences += cv.getCompetences()[i] + ", ";
 			}
 			
 			competences += cv.getCompetences()[longueur-1];
@@ -146,12 +158,4 @@ public class CV {
 		
 	}
 	
-	public String afficherCompetences(String[]comp) {
-		String tamere="";
-		for (int i = 0; i < comp.length; i++) {
-			tamere += comp[i] + ", ";
-		}
-		return tamere;
-	}
-
 }
