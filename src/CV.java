@@ -121,22 +121,28 @@ public class CV {
 	
 	public static void affiche(CV cv) {
 		
-		int longueur = cv.getCompetences().length;
-		String competences = "";
 		
-		for (int i = 0; i < longueur-1; i++) {
-			competences += cv.getCompetences()[i] + ",";
+		try {
+			
+			int longueur = cv.getCompetences().length;
+			String competences = "";
+			
+			for (int i = 0; i < longueur-1; i++) {
+				competences += cv.getCompetences()[i] + ",";
+			}
+			
+			competences += cv.getCompetences()[longueur-1];
+			
+			System.out.println("\nNom: " + cv.getNom() + "\n" + 
+					"Prenom: " + cv.getPrenom() + "\n" +
+					"Formation: " + cv.getFormation() + "\n" + 
+					"Année(s) d'expérience: " + cv.getExp() + "\n" +
+					"Liste de compétences: " + competences + "\n" +
+					"Attentes face au cours 4B4: " + cv.getAttentes() );
+		} catch (Exception e) {
+			System.out.println("Erreur lors de la lecture des renseignements. Message: " + e.getMessage().toString());
 		}
 		
-		competences += cv.getCompetences()[longueur-1];
-		
-		
-		System.out.println("\nNom: " + cv.getNom() + "\n" + 
-				"Prenom: " + cv.getPrenom() + "\n" +
-				"Formation: " + cv.getFormation() + "\n" + 
-				"Année(s) d'expérience: " + cv.getExp() + "\n" +
-				"Liste de compétences: " + competences + "\n" +
-				"Attentes face au cours 4B4: " + cv.getAttentes() );
 		
 	}
 	
