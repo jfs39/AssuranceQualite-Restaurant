@@ -1,96 +1,24 @@
+import java.io.File;
 import java.util.Scanner;
 
 import outilsjava.OutilsLecture; 
 
-public class CV {
-
-	/*-----------------------Création de l'objet Cv----------------------*/
-	
-	private String nom;
-	private String prenom;
-	private String formation;
-	private int experience; 
-	private String[] competences;
-	private String attentes4B4;
-	
-	public CV(){
-	
-	}
-	
-	public CV(String pNom,String pPrenom,String pFormation,int pExperience, String[] pCompetences, String pAttentes4B4) {
-		this.nom = pNom;
-		this.prenom = pPrenom;
-		this.formation = pFormation;
-		this.experience = pExperience;
-		this.competences = pCompetences;
-		this.attentes4B4= pAttentes4B4;
-	}
-	
-	/*--------------------- Méthodes Get ------------------------*/
-	public String getNom(){
-		return this.nom;
-	}
-	
-	public String getPrenom() {
-		return this.prenom;
-	}
-	
-	public String getFormation() {
-		return this.formation;
-	}
-	
-	public int getExp() {
-		return this.experience;
-	}
-	
-	public String[] getCompetences() {
-		return this.competences;
-	}
-	
-	public String getAttentes() {
-		return this.attentes4B4;
-	}
-	
-	/*--------------------- Méthodes Set ------------------------*/
-	
-	public void setNom(String nom){
-		this.nom = nom;
-	}
-	
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-	
-	public void setFormation(String formation) {
-		this.formation = formation;
-	}
-	
-	public void setExp(int exp) {
-		this.experience = exp;
-	}
-	
-	public void setCompetences(String[] competences) {
-		this.competences = competences;
-	}
-	
-	public void setAttentes(String attentes) {
-		this.attentes4B4 = attentes;
-	}
+public class Principal {
 	
 	/*----------------------Méthodes Essentielles-----------------------*/
 	
 	public static void main(String[] args) {
-	
-	Scanner in = new Scanner(System.in); 
-	
-	String prenom, nom, formation, attentes;
-	int experience;
-	String[] competences;
-	
 
-	System.out.println("Bienvenue chez Barette!");
+	System.out.println("Bienvenue chez Barette!\n");
 
-	/* Pour lire des informations */
+	/*---------------------------- Pour lire des informations ------------------------------*/
+	
+//	Scanner in = new Scanner(System.in); 
+//	
+//	String prenom, nom, formation, attentes;
+//	int experience;
+//	String[] competences;
+//	
 //	System.out.print("\nVeuillez entrer votre prénom: ");
 //	prenom = in.nextLine();
 //	
@@ -110,52 +38,74 @@ public class CV {
 //	
 //	competences = competenceCourante.split(",");
 	
-	String[] competencesJF = new String[4];
-	competencesJF[0] = "Java";
-	competencesJF[1] = "HTML";
-	competencesJF[2] = "CSS";
-	competencesJF[3] = "C#";
+//	/*-----------------------------Données en test----------------------------*/
+//	
+//	String[] competencesJF = new String[4];
+//	competencesJF[0] = "Java";
+//	competencesJF[1] = "HTML";
+//	competencesJF[2] = "CSS";
+//	competencesJF[3] = "C#";
+//	
+//	String[] competencesSteph = new String[4];
+//	competencesSteph[0] = "C#";
+//	competencesSteph[1] = "Javascript";
+//	competencesSteph[2] = "SQL";
+//	competencesSteph[3] = "JQuery";
+//	
+//	ObjetCV cvJF = new ObjetCV("Sergerie", "Jean-François", "420.AA", 2, competencesJF, "Aucune attente");
+//	ObjetCV cvSteph = new ObjetCV("Leduc", "Stéphanie", "420.AA", 1, competencesSteph, "Aucune attente");
+//	
+//	/*------------------------------------affichage------------------------------------*/
+//	
+//	affiche(cvJF);
+//	affiche(cvSteph);
+//	
+//	}
+//	
+//	public static void affiche(ObjetCV cvJF) {
+//		
+//		
+//		try {
+//			
+//			int longueur = cvJF.getCompetences().length;
+//			String competences = "";
+//			
+//			for (int i = 0; i < longueur-1; i++) {
+//				competences += cvJF.getCompetences()[i] + ", ";
+//			}
+//			
+//			competences += cvJF.getCompetences()[longueur-1];
+//			
+//			System.out.println("\nNom: " + cvJF.getNom() + "\n" + 
+//					"Prenom: " + cvJF.getPrenom() + "\n" +
+//					"Formation: " + cvJF.getFormation() + "\n" + 
+//					"Année(s) d'expérience: " + cvJF.getExp() + "\n" +
+//					"Liste de compétences: " + competences + "\n" +
+//					"Attentes face au cours 4B4: " + cvJF.getAttentes() );
+//		} catch (Exception e) {
+//			System.out.println("Erreur lors de la lecture des renseignements. Message: " + e.getMessage().toString());
+//		}
+//		
+//	---------------------------------------------------------- Partie 2 ----------------------------------------------------------------------
+	try {
+	File monFichier = new File("C:\\Users\\Jean-François\\SecondWorkSpace\\AssuranceQualite-Restaurant\\src\\commande.txt"); // lien an absolu steph help plz
 	
-	String[] competencesSteph = new String[4];
-	competencesSteph[0] = "C#";
-	competencesSteph[1] = "Javascript";
-	competencesSteph[2] = "SQL";
-	competencesSteph[3] = "JQuery";
-	
-	CV cvJF = new CV("Sergerie", "Jean-François", "420.AA", 2, competencesJF, "Aucune attente");
-	CV cvSteph = new CV("Leduc", "Stéphanie", "420.AA", 1, competencesSteph, "Aucune attente");
-	
-	
-	affiche(cvJF);
-	affiche(cvSteph);
-	
+	Scanner myReader = new Scanner(monFichier);
+	String[] data = new String[Integer.parseInt(Long.toString(monFichier.length()))];
+	int i = 0;
+	while(myReader.hasNextLine()) {
+
+		data[i]= myReader.nextLine();
+		System.out.println(data[i]);
+		i++;
 	}
+	myReader.close();
 	
-	public static void affiche(CV cv) {
-		
-		
-		try {
-			
-			int longueur = cv.getCompetences().length;
-			String competences = "";
-			
-			for (int i = 0; i < longueur-1; i++) {
-				competences += cv.getCompetences()[i] + ", ";
-			}
-			
-			competences += cv.getCompetences()[longueur-1];
-			
-			System.out.println("\nNom: " + cv.getNom() + "\n" + 
-					"Prenom: " + cv.getPrenom() + "\n" +
-					"Formation: " + cv.getFormation() + "\n" + 
-					"Année(s) d'expérience: " + cv.getExp() + "\n" +
-					"Liste de compétences: " + competences + "\n" +
-					"Attentes face au cours 4B4: " + cv.getAttentes() );
-		} catch (Exception e) {
-			System.out.println("Erreur lors de la lecture des renseignements. Message: " + e.getMessage().toString());
+	} catch (Exception e) {
+		System.out.println("Une erreur a occuré");
+		e.printStackTrace();
 		}
-		
-		
+	
 	}
 	
 }
