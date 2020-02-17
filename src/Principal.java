@@ -1,5 +1,11 @@
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import outilsjava.OutilsFichier;
 import outilsjava.OutilsLecture; 
 
@@ -98,16 +104,41 @@ public class Principal {
 		
 		String monFichier = OutilsFichier.lireNomFichier("Entrez le nom du fichier : ");
 		
-		BufferedWriter fic = OutilsFichier.ouvrirFicTexteEcriture(monFichier);
-		//catch pas trop comment sa fonctionne
-		
-		
-		
-		
-		
-
 	
-	
+		
+		
+		
+/*****************************************************************************************/		
+		//String contenuFichier = readFile(monFichier);
+		
+		//String[] contenuTraite = contenuFichier.split(":");
+		//List<String> contenuFiltre = new ArrayList<String>();
+		
+//		for (int i = 0;i < contenuTraite.length; i++) {
+//			System.out.println(contenuTraite[i]);
+//			if (!contenuTraite[i].equals("Clients") || !contenuTraite[i].equals(":") || !contenuTraite[i].equals("Plats") || !contenuTraite[i].equals("Commandes")) {
+//				contenuFiltre.add(contenuTraite[i]);
+//			}
+//			
+//		}
+		
 	}
+	
+	/*private static String readFile(String nomFichier) {
+		String texte  = "";
+		try {
+			Scanner scan = new Scanner(new File(nomFichier));
+			while (scan.hasNextLine()) {
+				texte = texte + scan.next() + " ";
+				
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Erreur avec le fichier.");
+		}
+		return texte;
+		
+		
+	}*/
 	
 }
