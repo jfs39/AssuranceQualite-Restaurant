@@ -1,15 +1,20 @@
-import java.io.File;
-import java.util.Scanner;
 
+import java.io.*;
+import outilsjava.OutilsFichier;
 import outilsjava.OutilsLecture; 
 
 public class Principal {
 	
+	private BufferedReader fichierCourant;
+	
+	public Principal(BufferedReader fic) {
+		
+		this.fichierCourant = fic;
+	}
+	
 	/*----------------------Méthodes Essentielles-----------------------*/
 	
 	public static void main(String[] args) {
-
-	System.out.println("Bienvenue chez Barette!\n");
 
 	/*---------------------------- Pour lire des informations ------------------------------*/
 	
@@ -87,24 +92,21 @@ public class Principal {
 //		}
 //		
 //	---------------------------------------------------------- Partie 2 ----------------------------------------------------------------------
-	try {
-	File monFichier = new File("C:\\Users\\Jean-François\\SecondWorkSpace\\AssuranceQualite-Restaurant\\src\\commande.txt"); // lien an absolu steph help plz
-	
-	Scanner myReader = new Scanner(monFichier);
-	String[] data = new String[Integer.parseInt(Long.toString(monFichier.length()))];
-	int i = 0;
-	while(myReader.hasNextLine()) {
 
-		data[i]= myReader.nextLine();
-		System.out.println(data[i]);
-		i++;
-	}
-	myReader.close();
+		System.out.println("Bienvenue chez Barette!\n");
+		System.out.println("Veuillez vous assurer que le fichier texte est dans le bon répretoire.\n");
+		
+		String monFichier = OutilsFichier.lireNomFichier("Entrez le nom du fichier : ");
+		
+		BufferedWriter fic = OutilsFichier.ouvrirFicTexteEcriture(monFichier);
+		//catch pas trop comment sa fonctionne
+		
+		
+		
+		
+		
+
 	
-	} catch (Exception e) {
-		System.out.println("Une erreur a occuré");
-		e.printStackTrace();
-		}
 	
 	}
 	
