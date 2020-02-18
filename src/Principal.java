@@ -1,8 +1,11 @@
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,12 +14,10 @@ import outilsjava.OutilsLecture;
 
 public class Principal {
 	
-	private BufferedReader fichierCourant;
+	private static ArrayList<String> clients = new ArrayList<String>();
+	private static ArrayList<String> plats = new ArrayList<String>();
+	private static ArrayList<String> commandes = new ArrayList<String>();
 	
-	public Principal(BufferedReader fic) {
-		
-		this.fichierCourant = fic;
-	}
 	
 	/*----------------------Méthodes Essentielles-----------------------*/
 	
@@ -100,45 +101,112 @@ public class Principal {
 //	---------------------------------------------------------- Partie 2 ----------------------------------------------------------------------
 
 		System.out.println("Bienvenue chez Barette!\n");
-		System.out.println("Veuillez vous assurer que le fichier texte est dans le bon répretoire.\n");
 		
 		String monFichier = OutilsFichier.lireNomFichier("Entrez le nom du fichier : ");
-		
-	
-		
-		
-		
-/*****************************************************************************************/		
-		//String contenuFichier = readFile(monFichier);
-		
-		//String[] contenuTraite = contenuFichier.split(":");
-		//List<String> contenuFiltre = new ArrayList<String>();
-		
-//		for (int i = 0;i < contenuTraite.length; i++) {
-//			System.out.println(contenuTraite[i]);
-//			if (!contenuTraite[i].equals("Clients") || !contenuTraite[i].equals(":") || !contenuTraite[i].equals("Plats") || !contenuTraite[i].equals("Commandes")) {
-//				contenuFiltre.add(contenuTraite[i]);
-//			}
-//			
-//		}
-		
+			
+		readFile("src/"+monFichier);
+		creerFactures();
 	}
 	
-	/*private static String readFile(String nomFichier) {
-		String texte  = "";
+	private static void creerFactures() {
+		ArrayList<Plat> tabPlats = new ArrayList<Plat>();
+		
+		Facture[] facturesOuvertes = new Facture[commandes.size()];
+		String[] commandeCourante;
+		String platCourant, clientCourant, qteCourante;
+		
+		String[] repas;
+		String nom;
+		double prix;
+		
+		for (int i = 0; i < plats.size(); i++) {
+			repas = plats.get(i).split(" ");
+			nom = repas[0];
+			prix = Double.parseDouble(repas[1]);
+			Plat plat = new Plat(nom,prix);
+			tabPlats.add(plat);
+			
+		}
+		
+		for (int i = 0; i < commandes.size(); i++) {
+		
+			commandeCourante = commandes.get(i).split(" ");
+
+			
+			clientCourant = commandeCourante[0];
+			platCourant = commandeCourante[1];
+			qteCourante = commandeCourante[2];
+			
+			Facture f = new Facture(clientCourant,platCourant,Integer.parseInt(qteCourante),tabPlats.get(i).getPrixPlat());//TODO pas sur
+			facturesOuvertes[i] = f;
+			
+		}
+		
+		Facture[] facturesComplete = fusionnerFactures(facturesOuvertes);
+		
+	}
+
+	private static Facture[] fusionnerFactures(Facture[] f) {
+		Facture[] factures = new Facture[clients.size()];
+		for (int i = 0; i < f.length; i++) {
+			for (int j = f.length; j > 0 ; j++) {
+				if (f[i].getNomClient().equals(f[j].getNomClient())) {
+					//TODO rendu la
+				}
+			}
+		}
+		
+	}
+
+	private static void readFile(String nomFichier) {
+		
+		String sectionCourante = "";
+		String ligne = "";
 		try {
 			Scanner scan = new Scanner(new File(nomFichier));
 			while (scan.hasNextLine()) {
-				texte = texte + scan.next() + " ";
+				ligne = scan.nextLine();
 				
+				if (ligne.equals("Clients :")) {
+					sectionCourante = "Clients";
+				} else if (ligne.equals("Plats :")) {
+					sectionCourante = "Plats";
+				} else if (ligne.equals("Commandes :")) {
+					sectionCourante = "Commandes";
+				} else if(ligne.equals("Fin")){
+					sectionCourante = "Fin";
+				}
+				switch (sectionCourante) {
+				case "Clients":
+					clients.add(ligne);
+					break;
+					
+				case "Plats":
+					plats.add(ligne);		
+					break;
+					
+				case "Commandes":
+					commandes.add(ligne);
+					break;
+
+				}
 			}
 			
+			scan.close();
+			
 		} catch (Exception e) {
-			System.out.println("Erreur avec le fichier.");
+			System.out.println("Le fichier ne respecte pas le format demandé!");
+			e.printStackTrace();
 		}
-		return texte;
 		
+		clients.remove(0);
+		plats.remove(0);
+		commandes.remove(0);
+	}
+	
+	private static void testerTab(ArrayList<String> tab) {
+		System.out.println(tab.toString());
 		
-	}*/
+	}
 	
 }
