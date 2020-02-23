@@ -40,9 +40,11 @@ public class Principal {
 		testerTab(plats);
 		testerTab(commandes);
 		
-		testerTab(erreurs);
+		
 		
 		creerFactures();
+		
+		testerTab(erreurs);
 	}
 
 	@SuppressWarnings("unused")
@@ -123,52 +125,57 @@ public class Principal {
 	}
 	
 	private static void creerFactures() {
-		ArrayList<Plat> tabPlats = new ArrayList<Plat>();
+		ArrayList<Plat> tabPlats = new ArrayList<>();
+		ArrayList<Commande> tabCommandes = new ArrayList<>();
 		
-		Facture[] facturesOuvertes = new Facture[commandes.size()];
 		String[] commandeCourante;
-		String platCourant, clientCourant, qteCourante;
+		String[] repasCourant;
 		
-		String[] repas;
-		String nom;
-		double prix;
 		
 		for (int i = 0; i < plats.size(); i++) {
-			repas = plats.get(i).split(" ");
-			nom = repas[0];
-			prix = Double.parseDouble(repas[1]);
-			Plat plat = new Plat(nom,prix);
-			tabPlats.add(plat);
 			
+			repasCourant = plats.get(i).split(" ");
+			Plat plat = new Plat(repasCourant[0], Double.parseDouble(repasCourant[1]));
+			tabPlats.add(plat);	
 		}
+		
 		
 		for (int i = 0; i < commandes.size(); i++) {
 		
 			commandeCourante = commandes.get(i).split(" ");
-
+			Commande com = new Commande();
+			try {
+				com.setNomClient(commandeCourante[0]);
+				com.setNomPlat(commandeCourante[1]);
+				com.setQte(Integer.parseInt(commandeCourante[2]));
+				
+				tabCommandes.add(com);
+			} catch (NumberFormatException e) {
+				System.out.println("Problème lors de la lecture de la commande.");
+				erreurs.add("Erreur dans la section Commandes à la ligne: " + commandeCourante[0] + " " + commandeCourante[1] + " " + commandeCourante[2]);
+			}
 			
-			clientCourant = commandeCourante[0];
-			platCourant = commandeCourante[1];
-			qteCourante = commandeCourante[2];
 			
-			Facture f = new Facture(clientCourant,platCourant,Integer.parseInt(qteCourante),tabPlats.get(i).getPrixPlat());//TODO pas sur
-			facturesOuvertes[i] = f;
+			//Facture f = new Facture(clientCourant,platCourant,Integer.parseInt(qteCourante),tabPlats.get(i).getPrixPlat());//TODO pas sur
+			//facturesOuvertes[i] = f;
+			
+		}
+		
+		for (int i = 0; i < tabCommandes.size(); i++) {
 			
 		}
 		
 		
-		
 	}
 
-	private static Facture[] fusionnerFactures(Facture[] f) {
-		Facture[] factures = new Facture[clients.size()];
+	private static boolean factureClientExiste(String nomClient) {
+		boolean existe = false;
+		
+		
+		
+		return existe;
+	}
 	
-		
-		
-		return factures;
-		
-	}
-
 	private static void readFile(String nomFichier) {
 		
 		String sectionCourante = "";
@@ -195,7 +202,7 @@ public class Principal {
 					if(estConformeClient(ligne)) {
 						clients.add(ligne);
 					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :")){
-						ajouterLigneErreur("Il y a une erreur dans la section \"Clients\". Ligne: " + ligne);
+						ajouterLigneErreur("Il y a une erreur dans la section \"Clients\" à la ligne: " + ligne);
 					}
 					
 					break;
@@ -204,7 +211,7 @@ public class Principal {
 					if (estConformePlat(ligne) && !ligne.equalsIgnoreCase(sectionCourante + " :")) {
 						plats.add(ligne);
 					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :")){
-						ajouterLigneErreur("Il y a une erreur dans la section \"Plats\".");
+						ajouterLigneErreur("Il y a une erreur dans la section \"Plats\" à la ligne: " + ligne);
 					}
 							
 					break;
@@ -239,7 +246,7 @@ public class Principal {
 		boolean conforme = true;
 		String[] subdivision = ligne.split(" ");
 		
-		if (subdivision.length > 2) {
+		if (subdivision.length > 2 ||  !Character.isDigit(ligne.charAt(ligne.length()-1)) ) {
 			conforme = false;
 		} 		
 		return conforme;
