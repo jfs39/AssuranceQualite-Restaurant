@@ -66,6 +66,18 @@ public class Facture {
 		
 	}
 	
+	public void ajouterRepas(int qte, double prix) {
+		if (prix>0) {
+			this.prixtotal += (qte * prix);
+		}
+		
+	}
+	
+	@Override
+    public String toString() { 
+        return this.getNomClient(); 
+    } 
+	
 	public void afficher() {
 		System.out.println(this.nomClient +" "+ OutilsAffichage.formaterMonetaire(this.prixtotal, 2));
 	}
