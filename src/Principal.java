@@ -18,14 +18,36 @@ public class Principal {
 	private static ArrayList<String> plats = new ArrayList<String>();
 	private static ArrayList<String> commandes = new ArrayList<String>();
 	
+	private static ArrayList<String> erreurs = new ArrayList<String>();
+	
 	
 	/*----------------------Méthodes Essentielles-----------------------*/
 	
 	public static void main(String[] args) {
 
-	/*---------------------------- Pour lire des informations ------------------------------*/
+	/*---------------------------- Partie 1 ------------------------------*/
 	
-//	Scanner in = new Scanner(System.in); 
+//	lireEtAfficherCV();
+//	---------------------------------------------------------- Partie 2 ----------------------------------------------------------------------
+
+		System.out.println("Bienvenue chez Barette!\n");
+		
+		String nomFichier = OutilsFichier.lireNomFichier("Entrez le nom du fichier ainsi que l'extension : ");		
+		readFile("src/" + nomFichier);
+		
+		
+		testerTab(clients);
+		testerTab(plats);
+		testerTab(commandes);
+		
+		testerTab(erreurs);
+		
+		creerFactures();
+	}
+
+	@SuppressWarnings("unused")
+	private static void lireEtAfficherCV() {
+//		Scanner in = new Scanner(System.in); 
 //	
 //	String prenom, nom, formation, attentes;
 //	int experience;
@@ -49,63 +71,55 @@ public class Principal {
 //	attentes= in.nextLine();
 //	
 //	competences = competenceCourante.split(",");
-	
-//	/*-----------------------------Données en test----------------------------*/
-//	
-//	String[] competencesJF = new String[4];
-//	competencesJF[0] = "Java";
-//	competencesJF[1] = "HTML";
-//	competencesJF[2] = "CSS";
-//	competencesJF[3] = "C#";
-//	
-//	String[] competencesSteph = new String[4];
-//	competencesSteph[0] = "C#";
-//	competencesSteph[1] = "Javascript";
-//	competencesSteph[2] = "SQL";
-//	competencesSteph[3] = "JQuery";
-//	
-//	ObjetCV cvJF = new ObjetCV("Sergerie", "Jean-François", "420.AA", 2, competencesJF, "Aucune attente");
-//	ObjetCV cvSteph = new ObjetCV("Leduc", "Stéphanie", "420.AA", 1, competencesSteph, "Aucune attente");
-//	
-//	/*------------------------------------affichage------------------------------------*/
-//	
-//	affiche(cvJF);
-//	affiche(cvSteph);
-//	
-//	}
-//	
-//	public static void affiche(ObjetCV cvJF) {
-//		
-//		
-//		try {
-//			
-//			int longueur = cvJF.getCompetences().length;
-//			String competences = "";
-//			
-//			for (int i = 0; i < longueur-1; i++) {
-//				competences += cvJF.getCompetences()[i] + ", ";
-//			}
-//			
-//			competences += cvJF.getCompetences()[longueur-1];
-//			
-//			System.out.println("\nNom: " + cvJF.getNom() + "\n" + 
-//					"Prenom: " + cvJF.getPrenom() + "\n" +
-//					"Formation: " + cvJF.getFormation() + "\n" + 
-//					"Année(s) d'expérience: " + cvJF.getExp() + "\n" +
-//					"Liste de compétences: " + competences + "\n" +
-//					"Attentes face au cours 4B4: " + cvJF.getAttentes() );
-//		} catch (Exception e) {
-//			System.out.println("Erreur lors de la lecture des renseignements. Message: " + e.getMessage().toString());
-//		}
-//		
-//	---------------------------------------------------------- Partie 2 ----------------------------------------------------------------------
-
-		System.out.println("Bienvenue chez Barette!\n");
 		
-		String monFichier = OutilsFichier.lireNomFichier("Entrez le nom du fichier : ");
+//	/*-----------------------------Données en test----------------------------*/
+	
+	String[] competencesJF = new String[4];
+	competencesJF[0] = "Java";
+	competencesJF[1] = "HTML";
+	competencesJF[2] = "CSS";
+	competencesJF[3] = "C#";
+	
+	String[] competencesSteph = new String[4];
+	competencesSteph[0] = "C#";
+	competencesSteph[1] = "Javascript";
+	competencesSteph[2] = "SQL";
+	competencesSteph[3] = "JQuery";
+	
+	ObjetCV cvJF = new ObjetCV("Sergerie", "Jean-François", "420.AA", 2, competencesJF, "Aucune attente");
+	ObjetCV cvSteph = new ObjetCV("Leduc", "Stéphanie", "420.AA", 1, competencesSteph, "Aucune attente");
+	
+	/*------------------------------------affichage------------------------------------*/
+	
+	affiche(cvJF);
+	affiche(cvSteph);
+	
+	}
+	
+	public static void affiche(ObjetCV cvJF) {
+		
+		
+		try {
 			
-		readFile("src/"+monFichier);
-		creerFactures();
+			int longueur = cvJF.getCompetences().length;
+			String competences = "";
+			
+			for (int i = 0; i < longueur-1; i++) {
+				competences += cvJF.getCompetences()[i] + ", ";
+			}
+			
+			competences += cvJF.getCompetences()[longueur-1];
+			
+			System.out.println("\nNom: " + cvJF.getNom() + "\n" + 
+					"Prenom: " + cvJF.getPrenom() + "\n" +
+					"Formation: " + cvJF.getFormation() + "\n" + 
+					"Année(s) d'expérience: " + cvJF.getExp() + "\n" +
+					"Liste de compétences: " + competences + "\n" +
+					"Attentes face au cours 4B4: " + cvJF.getAttentes() );
+		} catch (Exception e) {
+			System.out.println("Erreur lors de la lecture des renseignements. Message: " + e.getMessage().toString());
+		}
+		
 	}
 	
 	private static void creerFactures() {
@@ -142,19 +156,16 @@ public class Principal {
 			
 		}
 		
-		Facture[] facturesComplete = fusionnerFactures(facturesOuvertes);
+		
 		
 	}
 
 	private static Facture[] fusionnerFactures(Facture[] f) {
 		Facture[] factures = new Facture[clients.size()];
-		for (int i = 0; i < f.length; i++) {
-			for (int j = f.length; j > 0 ; j++) {
-				if (f[i].getNomClient().equals(f[j].getNomClient())) {
-					//TODO rendu la
-				}
-			}
-		}
+	
+		
+		
+		return factures;
 		
 	}
 
@@ -162,6 +173,7 @@ public class Principal {
 		
 		String sectionCourante = "";
 		String ligne = "";
+		
 		try {
 			Scanner scan = new Scanner(new File(nomFichier));
 			while (scan.hasNextLine()) {
@@ -176,17 +188,32 @@ public class Principal {
 				} else if(ligne.equals("Fin")){
 					sectionCourante = "Fin";
 				}
+					
+				
 				switch (sectionCourante) {
 				case "Clients":
-					clients.add(ligne);
+					if(estConformeClient(ligne)) {
+						clients.add(ligne);
+					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :")){
+						ajouterLigneErreur("Il y a une erreur dans la section \"Clients\". Ligne: " + ligne);
+					}
+					
 					break;
 					
 				case "Plats":
-					plats.add(ligne);		
+					if (estConformePlat(ligne) && !ligne.equalsIgnoreCase(sectionCourante + " :")) {
+						plats.add(ligne);
+					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :")){
+						ajouterLigneErreur("Il y a une erreur dans la section \"Plats\".");
+					}
+							
 					break;
 					
 				case "Commandes":
-					commandes.add(ligne);
+					if (!ligne.equalsIgnoreCase(sectionCourante + " :")) {
+						commandes.add(ligne);
+					}
+					
 					break;
 
 				}
@@ -195,17 +222,37 @@ public class Principal {
 			scan.close();
 			
 		} catch (Exception e) {
-			System.out.println("Le fichier ne respecte pas le format demandé!");
+			String erreur = "Le fichier ne respecte pas le format demandé!";
+			System.out.println(erreur);
+			erreurs.add(erreur);
 			e.printStackTrace();
 		}
 		
-		clients.remove(0);
-		plats.remove(0);
-		commandes.remove(0);
+		
+	}
+	
+	private static boolean estConformeClient(String ligne) {
+		return ligne.indexOf(" ") == -1;
+	}
+	
+	private static boolean estConformePlat(String ligne) {
+		boolean conforme = true;
+		String[] subdivision = ligne.split(" ");
+		
+		if (subdivision.length > 2) {
+			conforme = false;
+		} 		
+		return conforme;
+	}
+	
+	private static void ajouterLigneErreur(String message) {
+		erreurs.add(message);
 	}
 	
 	private static void testerTab(ArrayList<String> tab) {
-		System.out.println(tab.toString());
+		if (tab.size()!=0) {
+			System.out.println(tab.toString());
+		}
 		
 	}
 	
