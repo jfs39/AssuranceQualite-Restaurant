@@ -17,6 +17,9 @@ public class Principal {
 	private static ArrayList<String> clients = new ArrayList<String>();
 	private static ArrayList<String> plats = new ArrayList<String>();
 	private static ArrayList<String> commandes = new ArrayList<String>();
+	private static ArrayList<Plat> tabPlats = new ArrayList<>();
+	private static ArrayList<Commande> tabCommandes = new ArrayList<>();
+	private static ArrayList<Facture> tabFactures = new ArrayList<>();
 
 	private static ArrayList<String> erreurs = new ArrayList<String>();
 
@@ -41,6 +44,12 @@ public class Principal {
 		creerFactures();
 
 		testerTab(erreurs);
+		
+		
+		for (int j = 0; j < tabFactures.size(); j++) {
+			tabFactures.get(j).afficher();
+		}
+		
 	}
 
 	@SuppressWarnings("unused")
@@ -118,9 +127,7 @@ public class Principal {
 	}
 
 	private static void creerFactures() {
-		ArrayList<Plat> tabPlats = new ArrayList<>();
-		ArrayList<Commande> tabCommandes = new ArrayList<>();
-		ArrayList<Facture> tabFactures = new ArrayList<>();
+		
 
 		String[] commandeCourante;
 		String[] repasCourant;
@@ -165,42 +172,43 @@ public class Principal {
 			}
 
 			Facture facture;
+			
+			
 
-			if (!factureClientExiste(tabFactures, commandeTraitee.getNomClient())) {
+			if (!factureClientExiste(commandeTraitee.getNomClient())) {
 			
 				facture = new Facture(commandeTraitee.getNomClient(), commandeTraitee.getNomPlat(),
 						commandeTraitee.getQte(), prixRepas);
 				tabFactures.add(facture);
+				listeClientCommande[compteur] = commandeTraitee.getNomClient();
+				compteur++;
 				
 			} else {
 				
 				for (int j = 0; j < tabFactures.size(); j++) {
-					if (tabFactures.get(i).getNomClient() == commandeTraitee.getNomClient()) {
+					if (tabFactures.get(j).getNomClient().toString() == commandeTraitee.getNomClient()) {
 						facture = tabFactures.get(j);
 						facture.ajouterRepas(commandeTraitee.getQte(), prixRepas);
-						break;
 					}
 				}
-
+			
 
 			}
+		
+
 
 		}
 		
-		// TODO mettre en commentaire, jsute pour verifier
-		System.out.println("\nFactures: ");
-		for (int i = 0; i < tabFactures.size(); i++) {
-			tabFactures.get(i).afficher();
-		}
+	
 
 	}
 
-	private static boolean factureClientExiste(ArrayList<Facture> liste, String nomClient) {
+	private static boolean factureClientExiste(String nomClient) {
 		boolean existe = false;
 
-		for (int i = 0; i < liste.size(); i++) {
+		for (int i = 0; i < tabFactures.size(); i++) {
 	
-			if (liste.get(i).toString() == nomClient) {
+			if (tabFactures.get(i).toString() == nomClient) {
 				existe = true;
 				break;
 			}
