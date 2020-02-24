@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import outilsjava.OutilsAffichage;
 import outilsjava.OutilsFichier;
 import outilsjava.OutilsLecture;
 
@@ -22,10 +23,12 @@ public class Principal {
 	private static ArrayList<Facture> tabFactures = new ArrayList<>();
 
 	private static ArrayList<String> erreurs = new ArrayList<String>();
+	
+	private static boolean formatRespecte = true;
 
 	/*----------------------Méthodes Essentielles-----------------------*/
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		/*---------------------------- Partie 1 ------------------------------*/
 
@@ -40,33 +43,44 @@ public class Principal {
 //		testerTab(clients);
 //		testerTab(plats);
 //		testerTab(commandes);
-
-		creerFactures();
-
-		testerTab(erreurs);
-		gererFactureVides();
 		
-		
+		if (formatRespecte) {
+			creerFactures();
+			gererFactureVides();
+		}
+
 		for (int j = 0; j < tabFactures.size(); j++) {
 			tabFactures.get(j).afficher();
 		}
-		
-		
+
+		FileOutputStream outputStream = new FileOutputStream("src/Facture.txt");
+		for (int i = 0; i < tabFactures.size(); i++) {
+			String o = tabFactures.get(i).getNomClient() + " "
+					+ OutilsAffichage.formaterMonetaire(tabFactures.get(i).getPrixtotal(), 2) + "\n";
+			outputStream.write(o.getBytes());
+		}
+		outputStream.close();
+
+		FileOutputStream outputStreamErreur = new FileOutputStream("src/Erreurs.txt");
+		for (int i = 0; i < erreurs.size(); i++) {
+			String o = erreurs.get(i) + "\n";
+			outputStreamErreur.write(o.getBytes());
+		}
+		outputStreamErreur.close();
+
 	}
 
 	private static void gererFactureVides() {
-		
+
 		for (int i = 0; i < clients.size(); i++) {
-			
-				
-				if (!factureClientExiste(clients.get(i))) {
-					
-					tabFactures.add(new Facture(clients.get(i)));
-				
-			
-		   }
+
+			if (!factureClientExiste(clients.get(i))) {
+
+				tabFactures.add(new Facture(clients.get(i)));
+
+			}
 		}
-		
+
 	}
 
 	@SuppressWarnings("unused")
@@ -97,59 +111,58 @@ public class Principal {
 //	competences = competenceCourante.split(",");
 
 //	/*-----------------------------Données en test----------------------------*/
-
-		String[] competencesJF = new String[4];
-		competencesJF[0] = "Java";
-		competencesJF[1] = "HTML";
-		competencesJF[2] = "CSS";
-		competencesJF[3] = "C#";
-
-		String[] competencesSteph = new String[4];
-		competencesSteph[0] = "C#";
-		competencesSteph[1] = "Javascript";
-		competencesSteph[2] = "SQL";
-		competencesSteph[3] = "JQuery";
-
-		ObjetCV cvJF = new ObjetCV("Sergerie", "Jean-François", "420.AA", 2, competencesJF, "Aucune attente");
-		ObjetCV cvSteph = new ObjetCV("Leduc", "Stéphanie", "420.AA", 1, competencesSteph, "Aucune attente");
-
-		/*------------------------------------affichage------------------------------------*/
-
-		affiche(cvJF);
-		affiche(cvSteph);
-
-	}
-
-	public static void affiche(ObjetCV cvJF) {
-
-		try {
-
-			int longueur = cvJF.getCompetences().length;
-			String competences = "";
-
-			for (int i = 0; i < longueur - 1; i++) {
-				competences += cvJF.getCompetences()[i] + ", ";
-			}
-
-			competences += cvJF.getCompetences()[longueur - 1];
-
-			System.out.println("\nNom: " + cvJF.getNom() + "\n" + "Prenom: " + cvJF.getPrenom() + "\n" + "Formation: "
-					+ cvJF.getFormation() + "\n" + "Année(s) d'expérience: " + cvJF.getExp() + "\n"
-					+ "Liste de compétences: " + competences + "\n" + "Attentes face au cours 4B4: "
-					+ cvJF.getAttentes());
-		} catch (Exception e) {
-			System.out.println("Erreur lors de la lecture des renseignements. Message: " + e.getMessage().toString());
-		}
-
+//
+//		String[] competencesJF = new String[4];
+//		competencesJF[0] = "Java";
+//		competencesJF[1] = "HTML";
+//		competencesJF[2] = "CSS";
+//		competencesJF[3] = "C#";
+//
+//		String[] competencesSteph = new String[4];
+//		competencesSteph[0] = "C#";
+//		competencesSteph[1] = "Javascript";
+//		competencesSteph[2] = "SQL";
+//		competencesSteph[3] = "JQuery";
+//
+//		ObjetCV cvJF = new ObjetCV("Sergerie", "Jean-François", "420.AA", 2, competencesJF, "Aucune attente");
+//		ObjetCV cvSteph = new ObjetCV("Leduc", "Stéphanie", "420.AA", 1, competencesSteph, "Aucune attente");
+//
+//		/*------------------------------------affichage------------------------------------*/
+//
+//		affiche(cvJF);
+//		affiche(cvSteph);
+//
+//	}
+//
+//	public static void affiche(ObjetCV cvJF) {
+//
+//		try {
+//
+//			int longueur = cvJF.getCompetences().length;
+//			String competences = "";
+//
+//			for (int i = 0; i < longueur - 1; i++) {
+//				competences += cvJF.getCompetences()[i] + ", ";
+//			}
+//
+//			competences += cvJF.getCompetences()[longueur - 1];
+//
+//			System.out.println("\nNom: " + cvJF.getNom() + "\n" + "Prenom: " + cvJF.getPrenom() + "\n" + "Formation: "
+//					+ cvJF.getFormation() + "\n" + "Année(s) d'expérience: " + cvJF.getExp() + "\n"
+//					+ "Liste de compétences: " + competences + "\n" + "Attentes face au cours 4B4: "
+//					+ cvJF.getAttentes());
+//		} catch (Exception e) {
+//			System.out.println("Erreur lors de la lecture des renseignements. Message: " + e.getMessage().toString());
+//		}
+//
 	}
 
 	private static void creerFactures() {
-		
 
 		String[] commandeCourante;
 		String[] repasCourant;
 		String[] listeClientCommande = new String[clients.size()];
-		
+
 		int compteur = 0;
 
 		for (int i = 0; i < plats.size(); i++) {
@@ -189,29 +202,27 @@ public class Principal {
 			}
 
 			Facture facture;
-			
-			
 
 			if (!factureClientExiste(commandeTraitee.getNomClient())) {
-			
+
 				facture = new Facture(commandeTraitee.getNomClient(), commandeTraitee.getNomPlat(),
 						commandeTraitee.getQte(), prixRepas);
 				tabFactures.add(facture);
 				listeClientCommande[compteur] = commandeTraitee.getNomClient();
 				compteur++;
-				
+
 			} else {
-				
+
 				for (int j = 0; j < tabFactures.size(); j++) {
-					if (tabFactures.get(j).getNomClient().toString().equals(commandeTraitee.getNomClient()) ) {
+					if (tabFactures.get(j).getNomClient().toString().equals(commandeTraitee.getNomClient())) {
 						facture = tabFactures.get(j);
 						facture.ajouterRepas(commandeTraitee.getQte(), prixRepas);
-						
+
 					}
 				}
-			
+
 			}
-		
+
 		}
 
 	}
@@ -220,7 +231,7 @@ public class Principal {
 		boolean existe = false;
 
 		for (int i = 0; i < tabFactures.size(); i++) {
-	
+
 			if (tabFactures.get(i).toString().equals(nomClient)) {
 				existe = true;
 				break;
@@ -256,6 +267,8 @@ public class Principal {
 						clients.add(ligne);
 					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :")) {
 						ajouterLigneErreur("Il y a une erreur dans la section \"Clients\" à la ligne: " + ligne);
+						System.out.println("\n Le Fichier ne respecte pas le format demandé");
+						formatRespecte = false;
 					}
 
 					break;
@@ -265,6 +278,8 @@ public class Principal {
 						plats.add(ligne);
 					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :")) {
 						ajouterLigneErreur("Il y a une erreur dans la section \"Plats\" à la ligne: " + ligne);
+						System.out.println("\n Le Fichier ne respecte pas le format demandé");
+						formatRespecte = false;
 					}
 
 					break;
@@ -308,6 +323,8 @@ public class Principal {
 		erreurs.add(message);
 	}
 
+	//Méthode pour tester les tableaux
+	@SuppressWarnings("unused")
 	private static void testerTab(ArrayList<String> tab) {
 		if (tab.size() != 0) {
 			System.out.println(tab.toString());
