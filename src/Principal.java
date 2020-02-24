@@ -37,17 +37,34 @@ public class Principal {
 		String nomFichier = OutilsFichier.lireNomFichier("Entrez le nom du fichier ainsi que l'extension : ");
 		readFile("src/" + nomFichier);
 
-		testerTab(clients);
-		testerTab(plats);
-		testerTab(commandes);
+//		testerTab(clients);
+//		testerTab(plats);
+//		testerTab(commandes);
 
 		creerFactures();
 
 		testerTab(erreurs);
+		gererFactureVides();
 		
 		
 		for (int j = 0; j < tabFactures.size(); j++) {
 			tabFactures.get(j).afficher();
+		}
+		
+		
+	}
+
+	private static void gererFactureVides() {
+		
+		for (int i = 0; i < clients.size(); i++) {
+			
+				
+				if (!factureClientExiste(clients.get(i))) {
+					
+					tabFactures.add(new Facture(clients.get(i)));
+				
+			
+		   }
 		}
 		
 	}
@@ -186,20 +203,16 @@ public class Principal {
 			} else {
 				
 				for (int j = 0; j < tabFactures.size(); j++) {
-					if (tabFactures.get(j).getNomClient().toString() == commandeTraitee.getNomClient()) {
+					if (tabFactures.get(j).getNomClient().toString().equals(commandeTraitee.getNomClient()) ) {
 						facture = tabFactures.get(j);
 						facture.ajouterRepas(commandeTraitee.getQte(), prixRepas);
+						
 					}
 				}
 			
-
 			}
 		
-
-
 		}
-		
-	
 
 	}
 
@@ -208,7 +221,7 @@ public class Principal {
 
 		for (int i = 0; i < tabFactures.size(); i++) {
 	
-			if (tabFactures.get(i).toString() == nomClient) {
+			if (tabFactures.get(i).toString().equals(nomClient)) {
 				existe = true;
 				break;
 			}

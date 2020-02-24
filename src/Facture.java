@@ -20,6 +20,12 @@ public class Facture {
 		this.prixtotal = calculerPrixTotal(prix, qte);
 		
 	}
+	public Facture(String nomClient) 
+	{
+		
+		this.nomClient = nomClient;
+		this.prixtotal = 0;
+	}
 
 	public String getNomClient() {
 		return nomClient;
