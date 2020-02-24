@@ -1,0 +1,19 @@
+/* 	NORMES DE PROGRAMMATION */
+
+1. Chaque programmeur doit s'assurer de bien indenter son code après chaque méthode écrite (ctrl + shift + f)
+
+2. Les noms de variables devront être significatifs, commencer par une minuscule, ne pas contenir de caractères spéciaux et séparer
+	les mots par des lettres majuscules.
+
+3. Chaque programmeur doit effectuer des commits avec un message significatif chaque fois que le programme est changé de façon 
+	significative. (Changer le nom d'une variable, par exemple, ne requiert pas de commit)
+	
+4. Il doit y avoir une ligne vide entre chaque méthode. De la même façon, il doit y avoir des espaces pour aérer le code.
+
+5. Dans la classe d'un objet, les méthodes getter and setter doivent être au bas de la classe, séparées par un commentaire les identifiant.
+
+6. Dans la classe d'un objet, les constructeurs doivent être en haut de la classe, triés en ordre de paramètres (moins de paramètres à plus), 
+	ainsi que les méthodes de la classe, séparées par un commentaire les identifiant.
+	
+7. Dans la classe d'un objet, les champs d'instance devront se situer au sommet de la classe.
+

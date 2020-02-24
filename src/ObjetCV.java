@@ -9,6 +9,9 @@ public class ObjetCV {
 	private String[] competences;
 	private String attentes4B4;
 	
+	
+	/* CONSTRUCTEURS */
+	
 	public ObjetCV(){
 	
 	}
@@ -22,7 +25,8 @@ public class ObjetCV {
 		this.attentes4B4= pAttentes4B4;
 	}
 	
-	/*--------------------- Méthodes Get ------------------------*/
+	/* MÉTHODES GETTER AND SETTER */
+	
 	public String getNom(){
 		return this.nom;
 	}
@@ -46,8 +50,6 @@ public class ObjetCV {
 	public String getAttentes() {
 		return this.attentes4B4;
 	}
-	
-	/*--------------------- Méthodes Set ------------------------*/
 	
 	public void setNom(String nom){
 		this.nom = nom;

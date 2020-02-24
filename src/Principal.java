@@ -30,10 +30,7 @@ public class Principal {
 
 	public static void main(String[] args) throws IOException {
 
-		/*---------------------------- Partie 1 ------------------------------*/
-
-//	lireEtAfficherCV();
-//	---------------------------------------------------------- Partie 2 ----------------------------------------------------------------------
+		
 
 		System.out.println("Bienvenue chez Barette!\n");
 
@@ -45,27 +42,38 @@ public class Principal {
 //		testerTab(commandes);
 		
 		if (formatRespecte) {
+			
 			creerFactures();
 			gererFactureVides();
+			
 		}
 
 		for (int j = 0; j < tabFactures.size(); j++) {
+			
 			tabFactures.get(j).afficher();
+			
 		}
 
 		FileOutputStream outputStream = new FileOutputStream("src/Facture.txt");
 		for (int i = 0; i < tabFactures.size(); i++) {
-			String o = tabFactures.get(i).getNomClient() + " "
+			
+			String facture = tabFactures.get(i).getNomClient() + " "
 					+ OutilsAffichage.formaterMonetaire(tabFactures.get(i).getPrixtotal(), 2) + "\n";
-			outputStream.write(o.getBytes());
+			
+			outputStream.write(facture.getBytes());
+			
 		}
+		
 		outputStream.close();
 
 		FileOutputStream outputStreamErreur = new FileOutputStream("src/Erreurs.txt");
 		for (int i = 0; i < erreurs.size(); i++) {
-			String o = erreurs.get(i) + "\n";
-			outputStreamErreur.write(o.getBytes());
+			
+			String erreur = erreurs.get(i) + "\n";
+			outputStreamErreur.write(erreur.getBytes());
+			
 		}
+		
 		outputStreamErreur.close();
 
 	}
@@ -83,79 +91,7 @@ public class Principal {
 
 	}
 
-	@SuppressWarnings("unused")
-	private static void lireEtAfficherCV() {
-//		Scanner in = new Scanner(System.in); 
-//	
-//	String prenom, nom, formation, attentes;
-//	int experience;
-//	String[] competences;
-//	
-//	System.out.print("\nVeuillez entrer votre prénom: ");
-//	prenom = in.nextLine();
-//	
-//	System.out.print("\nVeuillez entrer votre nom: ");
-//	nom = in.nextLine();
-//	
-//	System.out.print("\nVeuillez entrer votre formation: ");
-//	formation = in.nextLine();
-//	
-//	experience = OutilsLecture.lireEntierValide("\nVeuillez entrer votre expérience en nombre d'années: ", 0, 100);
-//	
-//	System.out.print("\nVeuillez entrer vos compétences (séparées par des virgules): ");
-//	String competenceCourante = in.nextLine();
-//	
-//	System.out.print("\nVeuillez entrer vos attentes face au cours 4B4: ");
-//	attentes= in.nextLine();
-//	
-//	competences = competenceCourante.split(",");
 
-//	/*-----------------------------Données en test----------------------------*/
-//
-//		String[] competencesJF = new String[4];
-//		competencesJF[0] = "Java";
-//		competencesJF[1] = "HTML";
-//		competencesJF[2] = "CSS";
-//		competencesJF[3] = "C#";
-//
-//		String[] competencesSteph = new String[4];
-//		competencesSteph[0] = "C#";
-//		competencesSteph[1] = "Javascript";
-//		competencesSteph[2] = "SQL";
-//		competencesSteph[3] = "JQuery";
-//
-//		ObjetCV cvJF = new ObjetCV("Sergerie", "Jean-François", "420.AA", 2, competencesJF, "Aucune attente");
-//		ObjetCV cvSteph = new ObjetCV("Leduc", "Stéphanie", "420.AA", 1, competencesSteph, "Aucune attente");
-//
-//		/*------------------------------------affichage------------------------------------*/
-//
-//		affiche(cvJF);
-//		affiche(cvSteph);
-//
-//	}
-//
-//	public static void affiche(ObjetCV cvJF) {
-//
-//		try {
-//
-//			int longueur = cvJF.getCompetences().length;
-//			String competences = "";
-//
-//			for (int i = 0; i < longueur - 1; i++) {
-//				competences += cvJF.getCompetences()[i] + ", ";
-//			}
-//
-//			competences += cvJF.getCompetences()[longueur - 1];
-//
-//			System.out.println("\nNom: " + cvJF.getNom() + "\n" + "Prenom: " + cvJF.getPrenom() + "\n" + "Formation: "
-//					+ cvJF.getFormation() + "\n" + "Année(s) d'expérience: " + cvJF.getExp() + "\n"
-//					+ "Liste de compétences: " + competences + "\n" + "Attentes face au cours 4B4: "
-//					+ cvJF.getAttentes());
-//		} catch (Exception e) {
-//			System.out.println("Erreur lors de la lecture des renseignements. Message: " + e.getMessage().toString());
-//		}
-//
-	}
 
 	private static void creerFactures() {
 
@@ -170,22 +106,27 @@ public class Principal {
 			repasCourant = plats.get(i).split(" ");
 			Plat plat = new Plat(repasCourant[0], Double.parseDouble(repasCourant[1]));
 			tabPlats.add(plat);
+			
 		}
 
 		for (int i = 0; i < commandes.size(); i++) {
 
 			commandeCourante = commandes.get(i).split(" ");
-			Commande com = new Commande();
+			Commande commande = new Commande();
+			
 			try {
-				com.setNomClient(commandeCourante[0]);
-				com.setNomPlat(commandeCourante[1]);
-				com.setQte(Integer.parseInt(commandeCourante[2]));
+				commande.setNomClient(commandeCourante[0]);
+				commande.setNomPlat(commandeCourante[1]);
+				commande.setQte(Integer.parseInt(commandeCourante[2]));
 
-				tabCommandes.add(com);
+				tabCommandes.add(commande);
+				
 			} catch (NumberFormatException e) {
 				System.out.println("Problème lors de la lecture de la commande.");
+				
 				erreurs.add("Erreur dans la section Commandes à la ligne: " + commandeCourante[0] + " "
 						+ commandeCourante[1] + " " + commandeCourante[2]);
+				
 			}
 
 		}
@@ -194,10 +135,14 @@ public class Principal {
 			Commande commandeTraitee = tabCommandes.get(i);
 
 			double prixRepas = 0;
+			
 			for (int j = 0; j < tabPlats.size(); j++) {
+				
 				if (tabPlats.get(j).getNomPlat().equalsIgnoreCase(commandeTraitee.getNomPlat())) {
+				
 					prixRepas = tabPlats.get(j).getPrixPlat();
 					break;
+					
 				}
 			}
 
@@ -207,6 +152,7 @@ public class Principal {
 
 				facture = new Facture(commandeTraitee.getNomClient(), commandeTraitee.getNomPlat(),
 						commandeTraitee.getQte(), prixRepas);
+				
 				tabFactures.add(facture);
 				listeClientCommande[compteur] = commandeTraitee.getNomClient();
 				compteur++;
@@ -214,7 +160,9 @@ public class Principal {
 			} else {
 
 				for (int j = 0; j < tabFactures.size(); j++) {
+					
 					if (tabFactures.get(j).getNomClient().toString().equals(commandeTraitee.getNomClient())) {
+						
 						facture = tabFactures.get(j);
 						facture.ajouterRepas(commandeTraitee.getQte(), prixRepas);
 
@@ -233,8 +181,10 @@ public class Principal {
 		for (int i = 0; i < tabFactures.size(); i++) {
 
 			if (tabFactures.get(i).toString().equals(nomClient)) {
+				
 				existe = true;
 				break;
+				
 			}
 		}
 
@@ -247,7 +197,9 @@ public class Principal {
 		String ligne = "";
 
 		try {
+			
 			Scanner scan = new Scanner(new File(nomFichier));
+			
 			while (scan.hasNextLine()) {
 				ligne = scan.nextLine();
 
@@ -263,9 +215,13 @@ public class Principal {
 
 				switch (sectionCourante) {
 				case "Clients":
+				
 					if (estConformeClient(ligne)) {
+						
 						clients.add(ligne);
+				
 					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :")) {
+						
 						ajouterLigneErreur("Il y a une erreur dans la section \"Clients\" à la ligne: " + ligne);
 						System.out.println("\n Le Fichier ne respecte pas le format demandé");
 						formatRespecte = false;
@@ -274,19 +230,27 @@ public class Principal {
 					break;
 
 				case "Plats":
+				
 					if (estConformePlat(ligne) && !ligne.equalsIgnoreCase(sectionCourante + " :")) {
+					
 						plats.add(ligne);
+				
 					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :")) {
+				
 						ajouterLigneErreur("Il y a une erreur dans la section \"Plats\" à la ligne: " + ligne);
 						System.out.println("\n Le Fichier ne respecte pas le format demandé");
 						formatRespecte = false;
+						
 					}
 
 					break;
 
 				case "Commandes":
+			
 					if (!ligne.equalsIgnoreCase(sectionCourante + " :")) {
+						
 						commandes.add(ligne);
+						
 					}
 
 					break;
@@ -297,37 +261,50 @@ public class Principal {
 			scan.close();
 
 		} catch (Exception e) {
+		
 			String erreur = "Le fichier ne respecte pas le format demandé!";
 			System.out.println(erreur);
 			erreurs.add(erreur);
 			e.printStackTrace();
+			
 		}
 
 	}
 
 	private static boolean estConformeClient(String ligne) {
+	
 		return ligne.indexOf(" ") == -1;
+		
 	}
 
 	private static boolean estConformePlat(String ligne) {
+	
 		boolean conforme = true;
 		String[] subdivision = ligne.split(" ");
 
 		if (subdivision.length > 2 || !Character.isDigit(ligne.charAt(ligne.length() - 1))) {
+		
 			conforme = false;
+			
 		}
+		
 		return conforme;
 	}
 
 	private static void ajouterLigneErreur(String message) {
+		
 		erreurs.add(message);
+		
 	}
 
 	//Méthode pour tester les tableaux
 	@SuppressWarnings("unused")
 	private static void testerTab(ArrayList<String> tab) {
+	
 		if (tab.size() != 0) {
+			
 			System.out.println(tab.toString());
+			
 		}
 
 	}

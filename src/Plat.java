@@ -4,7 +4,7 @@ public class Plat {
 	private String nomPlat;
 	private double prixPlat;
 	
-	
+	/* CONSTRUCTEURS */
 	public Plat() {
 		
 	}
@@ -14,7 +14,7 @@ public class Plat {
 		this.prixPlat = prixPlat;
 	}
 	
-
+	/* METHODES GETTER AND SETTER */
 	
 	public String getNomPlat() {
 		return nomPlat;

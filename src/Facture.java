@@ -8,7 +8,17 @@ public class Facture {
 	private double prixRepas;
 	private double prixtotal;
 
+	
+	/* CONSTRUCTEURS */
+	
 	public Facture() {
+	}
+	
+	public Facture(String nomClient) 
+	{
+		
+		this.nomClient = nomClient;
+		this.prixtotal = 0;
 	}
 	
 	public Facture(String nomClient,String plat,int qte, double prix ) {
@@ -20,13 +30,33 @@ public class Facture {
 		this.prixtotal = calculerPrixTotal(prix, qte);
 		
 	}
-	public Facture(String nomClient) 
-	{
+	
+	/* 	MÉTHODES PROPRES À LA CLASSE */
+
+	private double calculerPrixTotal(double prixRepas, int qte) {
+		return prixRepas * qte;
 		
-		this.nomClient = nomClient;
-		this.prixtotal = 0;
+	}
+	
+	public void ajouterRepas(int qte, double prix) {
+		if (prix>0) {
+			this.prixtotal += (qte * prix);
+		}
+		
+	}
+	
+	@Override
+    public String toString() { 
+        return this.getNomClient(); 
+    } 
+	
+	public void afficher() {
+		System.out.println(this.nomClient +" "+ OutilsAffichage.formaterMonetaire(this.prixtotal, 2));
 	}
 
+	
+	/* MÉTHODES GETTER AND SETTER */
+	
 	public String getNomClient() {
 		return nomClient;
 	}
@@ -65,26 +95,5 @@ public class Facture {
 
 	public void setPrixtotal(double prixtotal) {
 		this.prixtotal = prixtotal;
-	}
-	
-	private double calculerPrixTotal(double prixRepas, int qte) {
-		return prixRepas * qte;
-		
-	}
-	
-	public void ajouterRepas(int qte, double prix) {
-		if (prix>0) {
-			this.prixtotal += (qte * prix);
-		}
-		
-	}
-	
-	@Override
-    public String toString() { 
-        return this.getNomClient(); 
-    } 
-	
-	public void afficher() {
-		System.out.println(this.nomClient +" "+ OutilsAffichage.formaterMonetaire(this.prixtotal, 2));
 	}
 }

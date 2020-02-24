@@ -1,6 +1,23 @@
 
 public class Commande {
 	
+	
+	private String nomClient;
+	private String nomPlat;
+	private int qte;
+	
+	public Commande() {
+		this.nomClient = null;
+		this.nomPlat = null;
+		this.qte = 0;
+	}
+	
+	public Commande(String nomClient, String nomPlat, int qte) {
+		this.nomClient = nomClient;
+		this.nomPlat = nomPlat;
+		this.qte = qte;
+	}
+	
 	public String getNomClient() {
 		return nomClient;
 	}
@@ -19,24 +36,5 @@ public class Commande {
 	public void setQte(int qte) {
 		this.qte = qte;
 	}
-	
-	
-	public Commande(String nomClient, String nomPlat, int qte) {
-		this.nomClient = nomClient;
-		this.nomPlat = nomPlat;
-		this.qte = qte;
-	}
-
-	public Commande() {
-		this.nomClient = null;
-		this.nomPlat = null;
-		this.qte = 0;
-	}
-	
-	
-	private String nomClient;
-	private String nomPlat;
-	private int qte;
-	
 	
 }
