@@ -3,6 +3,12 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,7 +50,7 @@ public class Principal {
 		if (formatRespecte) {
 			
 			creerFactures();
-			gererFactureVides();
+		//	gererFactureVides();
 			
 		}
 
@@ -53,8 +59,9 @@ public class Principal {
 			tabFactures.get(j).afficher();
 			
 		}
-
-		FileOutputStream outputStream = new FileOutputStream("src/Facture.txt");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH;mm;ss");//TODO
+		LocalDateTime now = LocalDateTime.now();
+		FileOutputStream outputStream = new FileOutputStream("src/Facture-du-"+dtf.format(now)+".txt");
 		for (int i = 0; i < tabFactures.size(); i++) {
 			
 			String facture = tabFactures.get(i).getNomClient() + " "
