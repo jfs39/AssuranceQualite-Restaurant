@@ -10,5 +10,4 @@ Commandes :
 Roger Poutine 1
 Celine Frites 2
 Celine Repas_Poulet 1
-Celine Repas_Poulet 8
 Fin

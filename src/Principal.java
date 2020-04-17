@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import outilsjava.OutilsAffichage;
 import outilsjava.OutilsFichier;
@@ -54,8 +55,14 @@ public class Principal {
 			
 		}
 
+		for (int i = 0; i < erreurs.size(); i++) {
+				System.out.println(erreurs.get(i));
+		}
+
+
 		for (int j = 0; j < tabFactures.size(); j++) {
 			
+			tabFactures.get(j).setPrixtotal(calculerTaxes(tabFactures.get(j).getPrixtotal()));
 			tabFactures.get(j).afficher();
 			
 		}
@@ -138,7 +145,10 @@ public class Principal {
 
 		}
 
+		
+		
 		for (int i = 0; i < tabCommandes.size(); i++) {
+			boolean ok = false;
 			Commande commandeTraitee = tabCommandes.get(i);
 
 			double prixRepas = 0;
@@ -146,13 +156,17 @@ public class Principal {
 			for (int j = 0; j < tabPlats.size(); j++) {
 				
 				if (tabPlats.get(j).getNomPlat().equalsIgnoreCase(commandeTraitee.getNomPlat())) {
-				
+					ok = true;
 					prixRepas = tabPlats.get(j).getPrixPlat();
 					break;
 					
-				}
+				} 
+				
+				
 			}
-
+			if(!ok) {
+				erreurs.add("\nErreur, le plat "+ commandeTraitee.getNomPlat()+ " n'existe pas.\n");
+			}
 			Facture facture;
 
 			if (!factureClientExiste(commandeTraitee.getNomClient())) {
@@ -258,7 +272,7 @@ public class Principal {
 						
 						commandes.add(ligne);
 						
-					}
+					} 
 
 					break;
 
@@ -280,8 +294,25 @@ public class Principal {
 
 	private static boolean estConformeClient(String ligne) {
 	
-		return ligne.indexOf(" ") == -1;
+		return ligne.indexOf(" ") == -1 ;
 		
+	}
+	
+	private static boolean estConformeCommande(String ligne) {
+		boolean conforme = false;
+		String[] subdivision = ligne.split(" ");
+		
+		
+		for (int i = 0; i < tabPlats.size(); i++) {
+			System.out.println(subdivision[i]);
+			if(tabPlats.get(i).getNomPlat().equals(subdivision[2])) {
+				conforme = true;
+				break;
+			}
+		}
+
+		
+		return conforme;
 	}
 
 	private static boolean estConformePlat(String ligne) {
@@ -314,6 +345,13 @@ public class Principal {
 			
 		}
 
+	}
+	
+	private static double calculerTaxes(double sousTotal) {
+		sousTotal *= 1.14975;
+		return sousTotal;
+		
+		
 	}
 
 }
