@@ -1,24 +1,13 @@
 
 import java.io.*;
-import java.lang.reflect.Array;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
-
 import outilsjava.OutilsAffichage;
 import outilsjava.OutilsFichier;
-import outilsjava.OutilsLecture;
+
 
 public class Principal {
 
@@ -107,7 +96,7 @@ public class Principal {
 
 
 
-	private static void creerFactures() {
+	public static void creerFactures() {
 
 		String[] commandeCourante;
 		String[] repasCourant;
@@ -196,7 +185,7 @@ public class Principal {
 
 	}
 
-	private static boolean factureClientExiste(String nomClient) {
+	public static boolean factureClientExiste(String nomClient) {
 		boolean existe = false;
 
 		for (int i = 0; i < tabFactures.size(); i++) {
@@ -212,8 +201,8 @@ public class Principal {
 		return existe;
 	}
 
-	private static void readFile(String nomFichier) {
-
+	public static boolean readFile(String nomFichier) {
+		boolean valide = true;
 		String sectionCourante = "";
 		String ligne = "";
 
@@ -246,6 +235,7 @@ public class Principal {
 						ajouterLigneErreur("Il y a une erreur dans la section \"Clients\" à la ligne: " + ligne);
 						System.out.println("\n Le Fichier ne respecte pas le format demandé");
 						formatRespecte = false;
+						valide = false;
 					}
 
 					break;
@@ -261,6 +251,7 @@ public class Principal {
 						ajouterLigneErreur("Il y a une erreur dans la section \"Plats\" à la ligne: " + ligne);
 						System.out.println("\n Le Fichier ne respecte pas le format demandé");
 						formatRespecte = false;
+						valide = false;
 						
 					}
 
@@ -271,33 +262,32 @@ public class Principal {
 					if (!ligne.equalsIgnoreCase(sectionCourante + " :")) {
 						
 						commandes.add(ligne);
-						
 					} 
-
 					break;
-
 				}
 			}
 
 			scan.close();
+			
 
 		} catch (Exception e) {
 		
-			String erreur = "Le fichier ne respecte pas le format demandé!";
+			String erreur = "Le fichier ne respecte pas le format demandé! 404";
 			System.out.println(erreur);
 			erreurs.add(erreur);
 			e.printStackTrace();
+			valide = false;
 			
 		}
-
+		return valide;
 	}
 
-	private static boolean estConformeClient(String ligne) {
+	public static boolean estConformeClient(String ligne) {
 	
 		return ligne.indexOf(" ") == -1 ;
 		
 	}
-	
+	@SuppressWarnings("unused") //Cette méthode était utilisée dans la partie 2 mais est maintenant obsolète pour que la partie 3 fonctionne.
 	private static boolean estConformeCommande(String ligne) {
 		boolean conforme = false;
 		String[] subdivision = ligne.split(" ");
@@ -310,12 +300,10 @@ public class Principal {
 				break;
 			}
 		}
-
-		
 		return conforme;
 	}
 
-	private static boolean estConformePlat(String ligne) {
+	public static boolean estConformePlat(String ligne) {
 	
 		boolean conforme = true;
 		String[] subdivision = ligne.split(" ");
@@ -347,7 +335,7 @@ public class Principal {
 
 	}
 	
-	private static double calculerTaxes(double sousTotal) {
+	public static double calculerTaxes(double sousTotal) {
 		sousTotal *= 1.14975;
 		return sousTotal;
 		
