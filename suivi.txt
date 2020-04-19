@@ -1,0 +1,14 @@
+
+
+STEPHANIE LEDUC
+	- Si le montant est de 0$, la facture n'est pas crée.
+	- Calculer les taxes sur les factures.
+	- Ajouter la date et l'heure sur les factures.
+
+
+JEAN-FRANCOIS SERGERIE
+	- Affichage de la facture (fichier de sortie).
+	- Gestion des commandes incorrectes.
+	- Ajout de tip suggéré (15%, 18%, 20%) sur la facture.
+
+

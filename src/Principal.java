@@ -28,47 +28,80 @@ public class Principal {
 
 		
 
-		System.out.println("Bienvenue chez Barette!\n");
+		afficherTitre();
 
-		String nomFichier = OutilsFichier.lireNomFichier("Entrez le nom du fichier ainsi que l'extension : ");
-		readFile("src/" + nomFichier);
-
-//		testerTab(clients);
-//		testerTab(plats);
-//		testerTab(commandes);
+		lireFichierCommande();
 		
-		if (formatRespecte) {
-			
-			creerFactures();
-		//	gererFactureVides();
-			
+		if (formatRespecte) {	
+			creerFactures();			
 		}
 
-		for (int i = 0; i < erreurs.size(); i++) {
-				System.out.println(erreurs.get(i));
-		}
-
-
-		for (int j = 0; j < tabFactures.size(); j++) {
-			
-			tabFactures.get(j).setPrixtotal(calculerTaxes(tabFactures.get(j).getPrixtotal()));
-			tabFactures.get(j).afficher();
-			
-		}
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH;mm;ss");//TODO
-		LocalDateTime now = LocalDateTime.now();
-		FileOutputStream outputStream = new FileOutputStream("src/Facture-du-"+dtf.format(now)+".txt");
-		for (int i = 0; i < tabFactures.size(); i++) {
-			
-			String facture = tabFactures.get(i).getNomClient() + " "
-					+ OutilsAffichage.formaterMonetaire(tabFactures.get(i).getPrixtotal(), 2) + "\n";
-			
-			outputStream.write(facture.getBytes());
-			
-		}
+		imprimerErreurs();
+		afficherFactureAvecTaxes();
 		
-		outputStream.close();
+		creationFichierFacture();
 
+	}
+
+	public static boolean lireFichierCommande() {
+		boolean fonctionne = true;
+		try {
+			String nomFichier = OutilsFichier.lireNomFichier("Entrez le nom du fichier ainsi que l'extension : ");
+			readFile("src/" + nomFichier);
+		} catch (Exception e) {
+			fonctionne = false;
+		}
+		return fonctionne;
+	}
+
+	public static boolean afficherTitre() {
+		boolean fonctionne = true;
+		try {
+			System.out.println("Bienvenue chez Barette!\n");
+		} catch (Exception e) {
+			fonctionne = false;
+		}
+		return fonctionne;
+	}
+
+	public static boolean creationFichierFacture() throws FileNotFoundException, IOException {
+		boolean fonctionne = true;
+		try {
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
+			LocalDateTime now = LocalDateTime.now();
+			String temps = dtf.format(now);
+			String[] maintenant = temps.split(" ");
+			
+			FileOutputStream outputStream = new FileOutputStream("src/Facture-du-"+ maintenant[0] + "T" + maintenant[1] + ".txt");
+			
+			afficherDateEtHeureDansFichier(maintenant, outputStream);
+			
+			afficherFactureDansFichier(outputStream,tabFactures);
+			
+			String footerFacture = "\n------------------------\n\nMerci de votre visite!";
+			outputStream.write(footerFacture.getBytes());
+			
+			outputStream.close();
+
+			FileOutputStream outputStreamErreur = ajoutErreursDansFichier();
+			
+			outputStreamErreur.close();
+		} catch (Exception e) {
+			fonctionne = false;
+		}
+	
+		return fonctionne;
+	}
+
+	public static void afficherDateEtHeureDansFichier(String[] maintenant, FileOutputStream outputStream)
+			throws IOException {
+		String titre = "\n------Chez Barette------\n\nFacture en date du " + maintenant[0];
+		outputStream.write(titre.getBytes());
+		String heure = "\n" + maintenant[1] + "\n\n";
+		outputStream.write(heure.getBytes());
+	}
+
+	public static FileOutputStream ajoutErreursDansFichier() throws FileNotFoundException, IOException {
 		FileOutputStream outputStreamErreur = new FileOutputStream("src/Erreurs.txt");
 		for (int i = 0; i < erreurs.size(); i++) {
 			
@@ -76,31 +109,82 @@ public class Principal {
 			outputStreamErreur.write(erreur.getBytes());
 			
 		}
-		
-		outputStreamErreur.close();
-
+		return outputStreamErreur;
 	}
 
-	private static void gererFactureVides() {
+	public static boolean afficherFactureDansFichier(FileOutputStream outputStream,ArrayList<Facture> tabDeFactures) throws IOException {
+		boolean fonctionne = true;
+		try {
+			for (int i = 0; i < tabFactures.size(); i++) {
 
-		for (int i = 0; i < clients.size(); i++) {
+				String facture = tabFactures.get(i).getNomClient() + " "
+						+ OutilsAffichage.formaterMonetaire(tabFactures.get(i).getPrixtotal(), 2) + " ( Tip 15% = "
+						+ OutilsAffichage.formaterMonetaire((tabFactures.get(i).getPrixtotal() * 0.15), 2) + " / 18% = "
+						+ OutilsAffichage.formaterMonetaire((tabFactures.get(i).getPrixtotal() * 0.18), 2) + " / 20% = "
+						+ OutilsAffichage.formaterMonetaire((tabFactures.get(i).getPrixtotal() * 0.2), 2) + " )\n";
 
-			if (!factureClientExiste(clients.get(i))) {
+				outputStream.write(facture.getBytes());
 
-				tabFactures.add(new Facture(clients.get(i)));
-
-			}
+			} 
+		} catch (Exception e) {
+			fonctionne = false;
 		}
-
+		return fonctionne;
 	}
 
+	public static boolean afficherFactureAvecTaxes() {
+		boolean fonctionne = true;
+		try {
+			for (int j = 0; j < tabFactures.size(); j++) {
+						
+						tabFactures.get(j).setPrixtotal(calculerTaxes(tabFactures.get(j).getPrixtotal()));
+						tabFactures.get(j).afficher();
+						
+					}
+		} catch (Exception e) {
+			fonctionne = false;
+		}
+		
+		return fonctionne;
+	}
+
+	public static boolean imprimerErreurs() {
+		boolean fonctionne = true;
+		try {
+			for (int i = 0; i < erreurs.size(); i++) {
+				System.out.println(erreurs.get(i));
+			}
+		} catch (Exception e) {
+			fonctionne = false;
+		}
+		return fonctionne;
+	}
+
+//	private static void gererFactureVides() {
+//
+//		for (int i = 0; i < clients.size(); i++) {
+//
+//			if (!factureClientExiste(clients.get(i),tabFactures)) {
+//
+//				tabFactures.add(new Facture(clients.get(i)));
+//
+//			}
+//		}
+//
+//	}
 
 
-	public static void creerFactures() {
 
+	public static boolean creerFactures() {
+		boolean fonctionne = true;
 		String[] commandeCourante;
 		String[] repasCourant;
 		String[] listeClientCommande = new String[clients.size()];
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
+		LocalDateTime now = LocalDateTime.now();
+		String temps = dtf.format(now);
+		String[] maintenant = temps.split(" ");
 
 		int compteur = 0;
 
@@ -126,7 +210,7 @@ public class Principal {
 				
 			} catch (NumberFormatException e) {
 				System.out.println("Problème lors de la lecture de la commande.");
-				
+				fonctionne = false;
 				erreurs.add("Erreur dans la section Commandes à la ligne: " + commandeCourante[0] + " "
 						+ commandeCourante[1] + " " + commandeCourante[2]);
 				
@@ -158,7 +242,7 @@ public class Principal {
 			}
 			Facture facture;
 
-			if (!factureClientExiste(commandeTraitee.getNomClient())) {
+			if (!factureClientExiste(commandeTraitee.getNomClient(),tabFactures)) {
 
 				facture = new Facture(commandeTraitee.getNomClient(), commandeTraitee.getNomPlat(),
 						commandeTraitee.getQte(), prixRepas);
@@ -182,15 +266,15 @@ public class Principal {
 			}
 
 		}
-
+		return fonctionne;
 	}
 
-	public static boolean factureClientExiste(String nomClient) {
+	public static boolean factureClientExiste(String nomClient, ArrayList<Facture> tabDeFactures) {
 		boolean existe = false;
 
-		for (int i = 0; i < tabFactures.size(); i++) {
+		for (int i = 0; i < tabDeFactures.size(); i++) {
 
-			if (tabFactures.get(i).toString().equals(nomClient)) {
+			if (tabDeFactures.get(i).toString().equals(nomClient)) {
 				
 				existe = true;
 				break;
@@ -272,10 +356,9 @@ public class Principal {
 
 		} catch (Exception e) {
 		
-			String erreur = "Le fichier ne respecte pas le format demandé! 404";
+			String erreur = "Erreur avec le fichier. Celui-ci ne respecte pas le format demandé ou est introuvable.";
 			System.out.println(erreur);
 			erreurs.add(erreur);
-			e.printStackTrace();
 			valide = false;
 			
 		}
@@ -287,21 +370,21 @@ public class Principal {
 		return ligne.indexOf(" ") == -1 ;
 		
 	}
-	@SuppressWarnings("unused") //Cette méthode était utilisée dans la partie 2 mais est maintenant obsolète pour que la partie 3 fonctionne.
-	private static boolean estConformeCommande(String ligne) {
-		boolean conforme = false;
-		String[] subdivision = ligne.split(" ");
-		
-		
-		for (int i = 0; i < tabPlats.size(); i++) {
-			System.out.println(subdivision[i]);
-			if(tabPlats.get(i).getNomPlat().equals(subdivision[2])) {
-				conforme = true;
-				break;
-			}
-		}
-		return conforme;
-	}
+//	@SuppressWarnings("unused") //Cette méthode était utilisée dans la partie 2 mais est maintenant obsolète pour que la partie 3 fonctionne.
+//	private static boolean estConformeCommande(String ligne) {
+//		boolean conforme = false;
+//		String[] subdivision = ligne.split(" ");
+//		
+//		
+//		for (int i = 0; i < tabPlats.size(); i++) {
+//			System.out.println(subdivision[i]);
+//			if(tabPlats.get(i).getNomPlat().equals(subdivision[2])) {
+//				conforme = true;
+//				break;
+//			}
+//		}
+//		return conforme;
+//	}
 
 	public static boolean estConformePlat(String ligne) {
 	
@@ -317,28 +400,37 @@ public class Principal {
 		return conforme;
 	}
 
-	private static void ajouterLigneErreur(String message) {
+	public static boolean ajouterLigneErreur(String message) {
+		boolean messageAjoute = true;
 		
-		erreurs.add(message);
-		
+		try {
+			erreurs.add(message);
+		} catch (Exception e) {
+			messageAjoute = false;
+		}
+		return messageAjoute;
 	}
 
 	//Méthode pour tester les tableaux
-	@SuppressWarnings("unused")
-	private static void testerTab(ArrayList<String> tab) {
-	
-		if (tab.size() != 0) {
-			
-			System.out.println(tab.toString());
-			
-		}
 
-	}
+//	private static void testerTab(ArrayList<String> tab) {
+//	
+//		if (tab.size() != 0) {
+//			
+//			System.out.println(tab.toString());
+//			
+//		}
+//
+//	}
 	
 	public static double calculerTaxes(double sousTotal) {
 		sousTotal *= 1.14975;
 		return sousTotal;
 		
+	}
+	
+	public static double calculerTip(double sousTotal, double tipChoisi) {
+		return sousTotal *= tipChoisi;
 		
 	}
 

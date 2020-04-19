@@ -1,0 +1,8 @@
+	- Si le montant est de 0$, la facture n'est pas crée.
+* La facture ne doit pas être affichée dans le fichier de sortie, ni sur la console si elle n'a pas de prix.
+
+	- Calculer les taxes sur les factures.
+* Les taxes doivent être calculées ensemble. (1.14975 au lieu de 5 et 9.975)
+	
+	- Ajouter la date et l'heure sur les factures.
+* Doit être le même format de date et heure que dans le titre du fichier de la facture.

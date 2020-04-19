@@ -1,0 +1,9 @@
+	- Affichage de la facture (fichier de sortie).
+* Doit se faire dans un fichier .txt, la facture graphique doit être plus intéressante qu'au TP précédent
+	
+	- Gestion des commandes incorrectes.
+* On doit afficher pourquoi les commandes sont incorrectes (liste d'erreur)
+* Il doit y avoir un fichier .txt pour les erreurs.
+	
+	- Ajout de tip suggéré (15%, 18%, 20%) sur la facture.
+* À côté de chaque facture, on veut pouvoir voir le montant du tip selon le pourcentage et le prix de la facture (Le prix total).

@@ -1,0 +1,13 @@
+Clients :
+Roger
+Celi ne
+Steeve
+Plats :
+Poutine 10.
+Frites 2.5
+Repas_Poulet 15.75
+Commandes :
+Roger Poutine 1
+Celine Fritolays 2
+Celine Repas_Poulet 1
+Fin
