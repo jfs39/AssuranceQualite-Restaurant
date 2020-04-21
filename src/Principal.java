@@ -36,8 +36,8 @@ public class Principal {
 			creerFactures();			
 		}
 
-		imprimerErreurs();
-		afficherFactureAvecTaxes();
+		imprimerErreurs(erreurs);
+		afficherFactureAvecTaxes(tabFactures);
 		
 		creationFichierFacture();
 
@@ -78,7 +78,7 @@ public class Principal {
 			
 			afficherFactureDansFichier(outputStream,tabFactures);
 			
-			String footerFacture = "\n------------------------\n\nMerci de votre visite!";
+			String footerFacture = "\n----------------------------\n\nMerci de votre visite!";
 			outputStream.write(footerFacture.getBytes());
 			
 			outputStream.close();
@@ -95,7 +95,7 @@ public class Principal {
 
 	public static void afficherDateEtHeureDansFichier(String[] maintenant, FileOutputStream outputStream)
 			throws IOException {
-		String titre = "\n------Chez Barette------\n\nFacture en date du " + maintenant[0];
+		String titre = "\n--------Chez Barette--------\n\nFacture en date du " + maintenant[0];
 		outputStream.write(titre.getBytes());
 		String heure = "\n" + maintenant[1] + "\n\n";
 		outputStream.write(heure.getBytes());
@@ -115,30 +115,38 @@ public class Principal {
 	public static boolean afficherFactureDansFichier(FileOutputStream outputStream,ArrayList<Facture> tabDeFactures) throws IOException {
 		boolean fonctionne = true;
 		try {
-			for (int i = 0; i < tabFactures.size(); i++) {
+			for (int i = 0; i < tabDeFactures.size(); i++) {
 
-				String facture = tabFactures.get(i).getNomClient() + " "
-						+ OutilsAffichage.formaterMonetaire(tabFactures.get(i).getPrixtotal(), 2) + " ( Tip 15% = "
-						+ OutilsAffichage.formaterMonetaire((tabFactures.get(i).getPrixtotal() * 0.15), 2) + " / 18% = "
-						+ OutilsAffichage.formaterMonetaire((tabFactures.get(i).getPrixtotal() * 0.18), 2) + " / 20% = "
-						+ OutilsAffichage.formaterMonetaire((tabFactures.get(i).getPrixtotal() * 0.2), 2) + " )\n";
+				String facture = "\n"+tabDeFactures.get(i).getNomClient() + " "
+						+ OutilsAffichage.formaterMonetaire(tabDeFactures.get(i).getPrixtotal(), 2) + " ( Tip 15% = "
+						+ OutilsAffichage.formaterMonetaire((tabDeFactures.get(i).getPrixtotal() * 0.15), 2) + " / 18% = "
+						+ OutilsAffichage.formaterMonetaire((tabDeFactures.get(i).getPrixtotal() * 0.18), 2) + " / 20% = "
+						+ OutilsAffichage.formaterMonetaire((tabDeFactures.get(i).getPrixtotal() * 0.2), 2) + " )\n";
 
 				outputStream.write(facture.getBytes());
+				
+				String tips ="\n----------------------------\n"+"\nTotaux possibles avec tips(facultatif) pour : "+ tabDeFactures.get(i).getNomClient()+"\n"
+				+ "\nTotal avec 15% de tip : "+OutilsAffichage.formaterMonetaire(calculerTip(tabDeFactures.get(i).getPrixtotal(), 1.15), 2)
+				+ "\nTotal avec 20% de tip : "+OutilsAffichage.formaterMonetaire(calculerTip(tabDeFactures.get(i).getPrixtotal(), 1.20), 2)
+				+ "\nTotal avec 25% de tip : "+OutilsAffichage.formaterMonetaire(calculerTip(tabDeFactures.get(i).getPrixtotal(), 1.25), 2) + "\n";
+				
+				outputStream.write(tips.getBytes());
+				
+			}
 
-			} 
 		} catch (Exception e) {
 			fonctionne = false;
 		}
 		return fonctionne;
 	}
 
-	public static boolean afficherFactureAvecTaxes() {
+	public static boolean afficherFactureAvecTaxes(ArrayList<Facture> tabDeFactures) {
 		boolean fonctionne = true;
 		try {
-			for (int j = 0; j < tabFactures.size(); j++) {
+			for (int j = 0; j < tabDeFactures.size(); j++) {
 						
-						tabFactures.get(j).setPrixtotal(calculerTaxes(tabFactures.get(j).getPrixtotal()));
-						tabFactures.get(j).afficher();
+						tabDeFactures.get(j).setPrixtotal(calculerTaxes(tabDeFactures.get(j).getPrixtotal()));
+						tabDeFactures.get(j).afficher();
 						
 					}
 		} catch (Exception e) {
@@ -148,11 +156,11 @@ public class Principal {
 		return fonctionne;
 	}
 
-	public static boolean imprimerErreurs() {
+	public static boolean imprimerErreurs(ArrayList<String> tabErreurs) {
 		boolean fonctionne = true;
 		try {
-			for (int i = 0; i < erreurs.size(); i++) {
-				System.out.println(erreurs.get(i));
+			for (int i = 0; i < tabErreurs.size(); i++) {
+				System.out.println(tabErreurs.get(i));
 			}
 		} catch (Exception e) {
 			fonctionne = false;

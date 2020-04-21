@@ -1,0 +1,30 @@
+
+------Chez Barette------
+
+Facture en date du 2020-04-21
+14.21.02
+
+
+Roger 12,07 $ ( Tip 15% = 1,81 $ / 18% = 2,17 $ / 20% = 2,41 $ )
+
+------------------------
+
+Totaux possibles avec tips(facultatif) pour : Roger
+
+Total avec 15% de tip : 13,88 $
+Total avec 20% de tip : 14,49 $
+Total avec 25% de tip : 15,09 $
+
+Celine 23,86 $ ( Tip 15% = 3,58 $ / 18% = 4,29 $ / 20% = 4,77 $ )
+
+------------------------
+
+Totaux possibles avec tips(facultatif) pour : Celine
+
+Total avec 15% de tip : 27,44 $
+Total avec 20% de tip : 28,63 $
+Total avec 25% de tip : 29,82 $
+
+------------------------
+
+Merci de votre visite!

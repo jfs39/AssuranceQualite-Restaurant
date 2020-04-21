@@ -1,11 +1,15 @@
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Test;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 public class PrincipalTest {
 	
@@ -27,15 +31,19 @@ public class PrincipalTest {
 	
 	@Test
 	public void testImprimerErreurs() {
-		
-	assertEquals(true,Principal.imprimerErreurs());
+		ArrayList<String> tabErreurs = new ArrayList<String>();
+		tabErreurs.add("Test Erreur");
+	assertEquals(true,Principal.imprimerErreurs(tabErreurs));
 		
 	}
 	
 	@Test
 	public void testAfficherFacturesAvecTaxes() {
-		
-	assertEquals(true,Principal.afficherFactureAvecTaxes());
+		ArrayList<Facture> tabDeFactures = new ArrayList<Facture>();
+		tabDeFactures.add(new Facture("JF"));
+		tabDeFactures.add(new Facture("Stouf"));
+		tabDeFactures.add(new Facture("Joseph"));
+	assertEquals(true,Principal.afficherFactureAvecTaxes(tabDeFactures));
 		
 	}
 	
@@ -46,16 +54,16 @@ public class PrincipalTest {
 		
 	}
 	
-	/*6 cas de tests implémentés*/
-	//manque 1
-	
 	@Test
-	public void testCalculTip() throws IOException {
-		ArrayList<Facture> tab = new ArrayList<Facture>();
-		tab.add(new Facture("Danielle", "Repas_Poulet", 2 , 10));
-		tab.add(new Facture("Bryan", "Repas_Poulet", 5 , 19));
-		tab.add(new Facture("Dumbo", "Repas_Poulet", 1 , 1));
-		assertEquals(true,Principal.afficherFactureDansFichier(null,tab ));
+	public void testAffichageFacture() throws FileNotFoundException, IOException {
+		
+		FileOutputStream outputStream = new FileOutputStream(new File("commandeTest.txt"));
+		ArrayList<Facture> tabDeFactures = new ArrayList<Facture>();
+		tabDeFactures.add(new Facture("JeanFrancois","Repas_Poulet",2,30));
+		tabDeFactures.add(new Facture("Stephanie","Repas_Poulet",1,50));
+		tabDeFactures.add(new Facture("Joseph","Frites",4,10));
+		
+	assertEquals(true,Principal.afficherFactureDansFichier(outputStream, tabDeFactures));
 		
 	}
 	
@@ -72,6 +80,8 @@ public class PrincipalTest {
 		assertEquals(false,Principal.factureClientExiste("Celine",tab));  //Si le client n'existe pas
 		
 	}
+	
+	/***********Tests unitaires************/
 	
 	@Test
 	public void testCalculTaxes() {

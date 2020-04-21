@@ -1,0 +1,30 @@
+
+JeanFrancois 60,00 $ ( Tip 15% = 9,00 $ / 18% = 10,80 $ / 20% = 12,00 $ )
+
+----------------------------
+
+Totaux possibles avec tips(facultatif) pour : JeanFrancois
+
+Total avec 15% de tip : 69,00 $
+Total avec 20% de tip : 72,00 $
+Total avec 25% de tip : 75,00 $
+
+Stephanie 50,00 $ ( Tip 15% = 7,50 $ / 18% = 9,00 $ / 20% = 10,00 $ )
+
+----------------------------
+
+Totaux possibles avec tips(facultatif) pour : Stephanie
+
+Total avec 15% de tip : 57,50 $
+Total avec 20% de tip : 60,00 $
+Total avec 25% de tip : 62,50 $
+
+Joseph 40,00 $ ( Tip 15% = 6,00 $ / 18% = 7,20 $ / 20% = 8,00 $ )
+
+----------------------------
+
+Totaux possibles avec tips(facultatif) pour : Joseph
+
+Total avec 15% de tip : 46,00 $
+Total avec 20% de tip : 48,00 $
+Total avec 25% de tip : 50,00 $
