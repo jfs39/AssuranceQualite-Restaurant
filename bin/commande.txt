@@ -6,8 +6,10 @@ Plats :
 Poutine 10.5
 Frites 2.5
 Repas_Poulet 15.75
+Pita 5
 Commandes :
 Roger Poutine 1
 Celine Frites 2
 Celine Repas_Poulet 1
+Steeve Pita 5
 Fin

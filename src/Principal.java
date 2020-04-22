@@ -78,7 +78,7 @@ public class Principal {
 			
 			afficherFactureDansFichier(outputStream,tabFactures);
 			
-			String footerFacture = "\n----------------------------\n\nMerci de votre visite!";
+			String footerFacture = "\nMerci de votre visite!";
 			outputStream.write(footerFacture.getBytes());
 			
 			outputStream.close();
@@ -128,7 +128,7 @@ public class Principal {
 				String tips ="\n----------------------------\n"+"\nTotaux possibles avec tips(facultatif) pour : "+ tabDeFactures.get(i).getNomClient()+"\n"
 				+ "\nTotal avec 15% de tip : "+OutilsAffichage.formaterMonetaire(calculerTip(tabDeFactures.get(i).getPrixtotal(), 1.15), 2)
 				+ "\nTotal avec 20% de tip : "+OutilsAffichage.formaterMonetaire(calculerTip(tabDeFactures.get(i).getPrixtotal(), 1.20), 2)
-				+ "\nTotal avec 25% de tip : "+OutilsAffichage.formaterMonetaire(calculerTip(tabDeFactures.get(i).getPrixtotal(), 1.25), 2) + "\n";
+				+ "\nTotal avec 25% de tip : "+OutilsAffichage.formaterMonetaire(calculerTip(tabDeFactures.get(i).getPrixtotal(), 1.25), 2) + "\n\n----------------------------\n";
 				
 				outputStream.write(tips.getBytes());
 				
@@ -181,8 +181,6 @@ public class Principal {
 //
 //	}
 
-
-
 	public static boolean creerFactures() {
 		boolean fonctionne = true;
 		String[] commandeCourante;
@@ -216,11 +214,10 @@ public class Principal {
 
 				tabCommandes.add(commande);
 				
-			} catch (NumberFormatException e) {
-				System.out.println("Problème lors de la lecture de la commande.");
+			} catch (Exception e) {
+				System.out.println("Problème lors de la lecture de la commande. Revoir votre commande, elle est peut-être invalide.");
 				fonctionne = false;
-				erreurs.add("Erreur dans la section Commandes à la ligne: " + commandeCourante[0] + " "
-						+ commandeCourante[1] + " " + commandeCourante[2]);
+				erreurs.add("Erreur dans la section Commandes à la ligne: " + e.getMessage());
 				
 			}
 
@@ -240,9 +237,7 @@ public class Principal {
 					ok = true;
 					prixRepas = tabPlats.get(j).getPrixPlat();
 					break;
-					
 				} 
-				
 				
 			}
 			if(!ok) {
@@ -295,6 +290,7 @@ public class Principal {
 
 	public static boolean readFile(String nomFichier) {
 		boolean valide = true;
+		boolean erreurValide = true;
 		String sectionCourante = "";
 		String ligne = "";
 
@@ -324,8 +320,9 @@ public class Principal {
 				
 					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :")) {
 						
-						ajouterLigneErreur("Il y a une erreur dans la section \"Clients\" à la ligne: " + ligne);
-						System.out.println("\n Le Fichier ne respecte pas le format demandé");
+						ajouterLigneErreur("\nIl y a une erreur dans la section \"Clients\" à la ligne: " + ligne);
+						System.out.println("\nLe Fichier ne respecte pas le format demandé");
+						erreurValide=false;
 						formatRespecte = false;
 						valide = false;
 					}
@@ -338,10 +335,11 @@ public class Principal {
 					
 						plats.add(ligne);
 				
-					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :")) {
-				
-						ajouterLigneErreur("Il y a une erreur dans la section \"Plats\" à la ligne: " + ligne);
-						System.out.println("\n Le Fichier ne respecte pas le format demandé");
+					} else if (!ligne.equalsIgnoreCase(sectionCourante + " :") ) {
+						if (erreurValide) {
+							System.out.println("\nLe Fichier ne respecte pas le format demandé");
+						}
+						ajouterLigneErreur("\nIl y a une erreur dans la section \"Plats\" à la ligne: " + ligne);
 						formatRespecte = false;
 						valide = false;
 						
@@ -361,18 +359,16 @@ public class Principal {
 
 			scan.close();
 			
-
 		} catch (Exception e) {
 		
-			String erreur = "Erreur avec le fichier. Celui-ci ne respecte pas le format demandé ou est introuvable.";
-			System.out.println(erreur);
+			String erreur = "\nErreur avec le fichier. Celui-ci ne respecte pas le format demandé ou est introuvable.";
 			erreurs.add(erreur);
 			valide = false;
 			
 		}
 		return valide;
 	}
-
+	
 	public static boolean estConformeClient(String ligne) {
 	
 		return ligne.indexOf(" ") == -1 ;
@@ -398,7 +394,6 @@ public class Principal {
 	
 		boolean conforme = true;
 		String[] subdivision = ligne.split(" ");
-
 		if (subdivision.length > 2 || !Character.isDigit(ligne.charAt(ligne.length() - 1))) {
 		
 			conforme = false;
@@ -434,12 +429,9 @@ public class Principal {
 	public static double calculerTaxes(double sousTotal) {
 		sousTotal *= 1.14975;
 		return sousTotal;
-		
 	}
 	
 	public static double calculerTip(double sousTotal, double tipChoisi) {
 		return sousTotal *= tipChoisi;
-		
 	}
-
 }
